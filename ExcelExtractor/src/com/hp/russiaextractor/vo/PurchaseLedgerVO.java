@@ -22,7 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 		private String transactionTypeCode; //2
 		private String invoiceDate; //3
 		private String sellersInvoice; //4
-		private Integer sellersAdjustmentAmount; //5
+		private String sellersAdjustmentAmount; //5
 		private Calendar dateOfSellersAdjustment; //6
 		private Integer sellersCorrectiveInvoiceNo; //7
 		private Calendar dateOfCorrectiveSellersInvoice; //8
@@ -51,29 +51,76 @@ import org.apache.poi.ss.usermodel.Row;
 		{
 			this.setNo((int) newRow.getCell(0).getNumericCellValue());
 			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
-			this.invoiceDate = this.splitInfo(newRow.getCell(2).getStringCellValue(), " ");
-			this.sellersInvoice = Temp;
-			//this.sellersInvoice =
+			this.invoiceDate = this.caseInfo(newRow.getCell(2), " ");
+			this.sellersInvoice = Temp; //set to temp to clear the last value 
+			this.sellersAdjustmentAmount = this.caseInfo(newRow.getCell(5)," ");
 		}
 		
 		private void outPut(){
 			
 		}
 		
-		public String splitInfo (String info, String character){
+		public String caseInfo (Cell info, String character){
+			double num;
 			
+			switch (info.getCellType()){
+			
+			case Cell.CELL_TYPE_NUMERIC:{
+				
+				num = info.getNumericCellValue();
+				return Double.toString(num);
+			}
+			case Cell.CELL_TYPE_BLANK:
+				break;
+			case Cell.CELL_TYPE_ERROR:
+				
+				break;
+			case Cell.CELL_TYPE_FORMULA:
+				break;
+	
+				default:{
+					
+					
+					if (info.getStringCellValue() != ""){
+						
+					String[] parts = info.getStringCellValue().split(character);
+					String part1 = parts[0];
+					
+					String part2 = parts[1];
+					Temp = part2;
+				//	int num = (int)letter[0]
+					part1 = part1.substring(0,part1.length()-1);
+					//System.out.println(part1 + " " + part2);
+					return part1;
+					
+					
+						}
+					else
+						return null;
+					}
+				}
+			return null;
+			
+		// if ((info.getStringCellValue() != null) && (info.getStringCellValue() != "")) {
 		//  Charset.forName("UTF-8").encode(info);
 		//	byte bytes[] = info.getBytes("ISO-8859-1");
 		//	String myString = new String(bytes, "UTF-8");
-			String[] parts = info.split(character);
-			String part1 = parts[0];
-			String part2 = parts[1];
-			Temp = part2;
+		//	String[] parts = info.getStringCellValue().split(character);
+		//	String part1 = parts[0];
+		//	String part2 = parts[1];
+		//	Temp = part2;
 		//	int num = (int)letter[0]
-			part1 = part1.substring(0,part1.length()-1);
-			System.out.println(part1 + " " + part2);
-			return part1;
-		}
+		//	part1 = part1.substring(0,part1.length()-1);
+		//	System.out.println(part1 + " " + part2);
+		//	return part1;
+		//}
+	//	else {
+		//	Temp = null;
+			
+			//	return info.getStringCellValue();
+			}
+		//}
+		
 		
 		public Integer getNo() {
 			return no;
@@ -100,10 +147,10 @@ import org.apache.poi.ss.usermodel.Row;
 		public void setSellersInvoice(String sellersInvoice) {
 			this.sellersInvoice = sellersInvoice;
 		}
-		public Integer getSellersAdjustmentAmount() {
+		public String getSellersAdjustmentAmount() {
 			return sellersAdjustmentAmount;
 		}
-		public void setSellersAdjustmentAmount(Integer sellersAdjustmentAmount) {
+		public void setSellersAdjustmentAmount(String sellersAdjustmentAmount) {
 			this.sellersAdjustmentAmount = sellersAdjustmentAmount;
 		}
 		public Calendar getDateOfSellersAdjustment() {

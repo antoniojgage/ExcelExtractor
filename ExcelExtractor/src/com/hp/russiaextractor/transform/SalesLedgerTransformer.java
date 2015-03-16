@@ -31,10 +31,10 @@ public class SalesLedgerTransformer {
 	 public static void main(String[] args) throws FileNotFoundException {
 	 // public void readWriteSpreadsheet(File in, File out) throws FileNotFoundException {
 		
-		// String in2 = "C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\Sales Ledger HPFS Analysis.xlsx";
-		String in3 = "C:\\Users\\jrcoo_000\\Desktop\\Purchase Ledger MS AX Original.xlsx";
+		 String in2 = "D:\\Dropbox\\Russia Java Project\\Purchase Ledger MS AX Original.xlsx";
+		//String in3 = "C:\\Users\\jrcoo_000\\Desktop\\Purchase Ledger MS AX Original.xlsx";
 		//InputStream inputS = new FileInputStream(in2);
-		InputStream inputS = new FileInputStream(in3);
+		InputStream inputS = new FileInputStream(in2);
 		
 		// ArrayList<SalesLedgerVO> salesLedgerList = new ArrayList<SalesLedgerVO>();
 		
@@ -75,7 +75,7 @@ public class SalesLedgerTransformer {
 			
 	
 		for(Row inRow: inSheet) { 
-			if((inRow.getRowNum() > 18) && (inRow.getCell(0) != null) && (inRow.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC)) { 
+			if((inRow.getRowNum() > 18) && (inRow.getCell(0) != null) && (inRow.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) && !(inRow.getCell(0).getCellType() == Cell.CELL_TYPE_ERROR))  { 
 			
 			PurchaseLedgerVO purchase = new PurchaseLedgerVO();	
 			//outRow = outSheet.createRow(rowNumber); //creates row on new virutal worksheet starting at row 2
@@ -85,6 +85,9 @@ public class SalesLedgerTransformer {
 			outRow.createCell(1).setCellValue(purchase.getTransactionTypeCode());
 			outRow.createCell(2).setCellValue(purchase.getInvoiceDate());
 			outRow.createCell(3).setCellValue(purchase.getSellersInvoice());
+			outRow.createCell(4).setCellValue(purchase.getSellersAdjustmentAmount());
+			
+			
 			
 /*		for(int r = 0; r < 10; r++){
 				
@@ -120,7 +123,7 @@ public class SalesLedgerTransformer {
 	}
 		
 		
-		FileOutputStream fileOut = new FileOutputStream("C:\\users\\jrcoo_000\\Desktop\\workbook.xls");
+		FileOutputStream fileOut = new FileOutputStream("D:\\Dropbox\\Russia Java Project\\workbook.xls");
 	    outWorkbook.write(fileOut);
 	    fileOut.close();
 		outWorkbook.close();
