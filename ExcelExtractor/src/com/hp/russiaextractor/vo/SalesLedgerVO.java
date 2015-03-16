@@ -3,6 +3,8 @@ package com.hp.russiaextractor.vo;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import org.apache.poi.ss.usermodel.Cell;
+
 public class SalesLedgerVO implements Serializable {
 
 	private static final long serialVersionUID = 7382825154783915791L;
@@ -37,6 +39,11 @@ public class SalesLedgerVO implements Serializable {
 
 	
 	
-	
+	public String setRow(Row newRow)
+	{
+		
+		return null;
+		
+	}
 	
 }

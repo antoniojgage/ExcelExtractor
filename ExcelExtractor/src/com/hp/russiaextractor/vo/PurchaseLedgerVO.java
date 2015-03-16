@@ -1,7 +1,17 @@
 package com.hp.russiaextractor.vo;
 	
 	import java.io.Serializable;
-	import java.util.Calendar;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
 
 	public class PurchaseLedgerVO implements Serializable {
 
@@ -9,9 +19,9 @@ package com.hp.russiaextractor.vo;
 		
 		//Purchase Ledger Variables 
 		private Integer no; //1
-		private Integer transactionTypeCode; //2
-		private Calendar invoiceDate; //3
-		private Integer sellersInvoice; //4
+		private String transactionTypeCode; //2
+		private String invoiceDate; //3
+		private String sellersInvoice; //4
 		private Integer sellersAdjustmentAmount; //5
 		private Calendar dateOfSellersAdjustment; //6
 		private Integer sellersCorrectiveInvoiceNo; //7
@@ -34,8 +44,36 @@ package com.hp.russiaextractor.vo;
 		private Integer amountOfDeductibleVat; //24
 		private Integer differenceInVatAccordingToCorrectiveInvoice; //25
 		private char copiedLine; //26
+		private Row createRow;
+		private String Temp;
 		
+		public void transformRow (Row newRow)
+		{
+			this.setNo((int) newRow.getCell(0).getNumericCellValue());
+			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
+			this.invoiceDate = this.splitInfo(newRow.getCell(2).getStringCellValue(), " ");
+			this.sellersInvoice = Temp;
+			//this.sellersInvoice =
+		}
 		
+		private void outPut(){
+			
+		}
+		
+		public String splitInfo (String info, String character){
+			
+		//  Charset.forName("UTF-8").encode(info);
+		//	byte bytes[] = info.getBytes("ISO-8859-1");
+		//	String myString = new String(bytes, "UTF-8");
+			String[] parts = info.split(character);
+			String part1 = parts[0];
+			String part2 = parts[1];
+			Temp = part2;
+		//	int num = (int)letter[0]
+			part1 = part1.substring(0,part1.length()-1);
+			System.out.println(part1 + " " + part2);
+			return part1;
+		}
 		
 		public Integer getNo() {
 			return no;
@@ -43,22 +81,23 @@ package com.hp.russiaextractor.vo;
 		public void setNo(Integer no) {
 			this.no = no;
 		}
-		public Integer getTransactionTypeCode() {
+		public String getTransactionTypeCode() {
 			return transactionTypeCode;
 		}
-		public void setTransactionTypeCode(Integer transactionTypeCode) {
+		public void setTransactionTypeCode(String transactionTypeCode) {
 			this.transactionTypeCode = transactionTypeCode;
 		}
-		public Calendar getInvoiceDate() {
+		public String getInvoiceDate() {
 			return invoiceDate;
 		}
-		public void setInvoiceDate(Calendar invoiceDate) {
+		public void setInvoiceDate(String invoiceDate) {
+			
 			this.invoiceDate = invoiceDate;
 		}
-		public Integer getSellersInvoice() {
+		public String getSellersInvoice() {
 			return sellersInvoice;
 		}
-		public void setSellersInvoice(Integer sellersInvoice) {
+		public void setSellersInvoice(String sellersInvoice) {
 			this.sellersInvoice = sellersInvoice;
 		}
 		public Integer getSellersAdjustmentAmount() {
@@ -120,6 +159,7 @@ package com.hp.russiaextractor.vo;
 		public void setDateOfRecording(Calendar dateOfRecording) {
 			this.dateOfRecording = dateOfRecording;
 		}
+		
 		public char getNameOfSeller() {
 			return nameOfSeller;
 		}

@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -20,6 +22,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import com.hp.russiaextractor.vo.PurchaseLedgerVO;
 import com.hp.russiaextractor.vo.SalesLedgerVO;
 
 public class SalesLedgerTransformer {
@@ -29,7 +32,7 @@ public class SalesLedgerTransformer {
 	 // public void readWriteSpreadsheet(File in, File out) throws FileNotFoundException {
 		
 		// String in2 = "C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\Sales Ledger HPFS Analysis.xlsx";
-		String in3 = "C:\\Users\\jrcoo_000\\Desktop\\Sales Ledger MS AX Original.xlsx";
+		String in3 = "C:\\Users\\jrcoo_000\\Desktop\\Purchase Ledger MS AX Original.xlsx";
 		//InputStream inputS = new FileInputStream(in2);
 		InputStream inputS = new FileInputStream(in3);
 		
@@ -42,14 +45,15 @@ public class SalesLedgerTransformer {
 			
 			Workbook outWorkbook;
 			Sheet outSheet;
-			Row outRow;
+			Row outRow, newRow;
 			Cell outCell;
 			int rowNumber;
 			int SL1 =5;
 			String data1;
 			
+			
 			// Row inRow = inSheet.getRow(); 
-			// boolean getNextRow = true;
+			 boolean getNextRow = true;
 			//Row row = null;
 			/* 
 			 * Kriegers original code
@@ -68,14 +72,21 @@ public class SalesLedgerTransformer {
 			outSheet = outWorkbook.createSheet("antonio");
 			
 			rowNumber = 1;
+			
 	
 		for(Row inRow: inSheet) { 
 			if((inRow.getRowNum() > 18) && (inRow.getCell(0) != null) && (inRow.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC)) { 
 			
-			outRow = outSheet.createRow(rowNumber); //creates row on new virutal worksheet starting at row 1
+			PurchaseLedgerVO purchase = new PurchaseLedgerVO();	
+			//outRow = outSheet.createRow(rowNumber); //creates row on new virutal worksheet starting at row 2
+			purchase.transformRow(inRow);
+			outRow = outSheet.createRow(rowNumber);
+			outRow.createCell(0).setCellValue(purchase.getNo());
+			outRow.createCell(1).setCellValue(purchase.getTransactionTypeCode());
+			outRow.createCell(2).setCellValue(purchase.getInvoiceDate());
+			outRow.createCell(3).setCellValue(purchase.getSellersInvoice());
 			
-			
-		for(int r = 3; r < 5; r++){
+/*		for(int r = 0; r < 10; r++){
 				
 			switch (inRow.getCell(r).getCellType()){
 			
@@ -99,17 +110,16 @@ public class SalesLedgerTransformer {
 						outRow.createCell(r).setCellValue(inRow.getCell(r).getStringCellValue());
 					}
 				}
-			data1 = inRow.getCell(SL1).getStringCellValue();
-			System.out.println(data1);
-				
-			}
+		//	data1 = purchase.getNo().toString();
+			//System.out.println(data1);
+			//System.out.println(purchase.getTransactionTypeCode());
+						
+			}*/
 			rowNumber++;
-			}
+		}
 	}
 		
-		Row row = inSheet.getRow(19);
-	 	Cell cell = row.getCell(4);
-		System.out.print(cell.getStringCellValue());
+		
 		FileOutputStream fileOut = new FileOutputStream("C:\\users\\jrcoo_000\\Desktop\\workbook.xls");
 	    outWorkbook.write(fileOut);
 	    fileOut.close();
