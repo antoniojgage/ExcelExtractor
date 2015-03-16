@@ -5,9 +5,9 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+//import java.util.String;
 import java.util.Date;
-import java.util.GregorianCalendar;
+//import java.util.GregorianString;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -23,14 +23,14 @@ import org.apache.poi.ss.usermodel.Row;
 		private String invoiceDate; //3
 		private String sellersInvoice; //4
 		private String sellersAdjustmentAmount; //5
-		private Calendar dateOfSellersAdjustment; //6
-		private Integer sellersCorrectiveInvoiceNo; //7
-		private Calendar dateOfCorrectiveSellersInvoice; //8
+		private String dateOfSellersAdjustment; //6
+		private String sellersCorrectiveInvoiceNo; //7
+		private String dateOfCorrectiveSellersInvoice; //8
 		private Integer adjustiveSellersCorrectiveInvoiceNo; //9
-		private Calendar dateOfAdjustedSellersCorrectiveInvoice; //10
+		private String dateOfAdjustedSellersCorrectiveInvoice; //10
 		private Integer numberOfPaymentConfirmationDocument; //11
-		private Calendar dateOfPaymentConfirmationDocument; //12
-		private Calendar dateOfRecording; //13
+		private String dateOfPaymentConfirmationDocument; //12
+		private String dateOfRecording; //13
 		private char nameOfSeller; //14
 		private Integer tinOfSeller; //15
 		private Integer crrOfSeller; //16
@@ -51,16 +51,46 @@ import org.apache.poi.ss.usermodel.Row;
 		{
 			this.setNo((int) newRow.getCell(0).getNumericCellValue());
 			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
-			this.invoiceDate = this.caseInfo(newRow.getCell(2), " ");
-			this.sellersInvoice = Temp; //set to temp to clear the last value 
-			this.sellersAdjustmentAmount = this.caseInfo(newRow.getCell(5)," ");
+			String[] intermediate3_4 = this.caseInfo(newRow.getCell(2), "\\u007c");
+			try {
+				this.invoiceDate = intermediate3_4[0];
+			} catch (NullPointerException e) {
+				//System.out.println(e.getMessage().toString());
+			}
+			try {
+				this.sellersInvoice = intermediate3_4[1];; //set to temp to clear the last value
+			}catch (NullPointerException e) {
+				//System.out.println(e.getMessage().toString());
+			}
+			 
+			// this.sellersAdjustmentAmount = this.caseInfo(newRow.getCell(5)," ");
+			
+			
+			String[] intermediate5_6 = this.caseInfo(newRow.getCell(5), "\\u007c");
+			try {
+				//this.dateOfSellersAdjustment = intermediate6_7[0];
+				setSellersAdjustmentAmount(intermediate5_6[0]); //setDateOfSellersAdjustment(intermediate5_6[0]);
+			} catch (NullPointerException e) {
+				//System.out.println(e.getMessage().toString());
+			}
+			try{
+				//this.sellersCorrectiveInvoiceNo = intermediate6_7[1];
+				setDateOfSellersAdjustment(intermediate5_6[1]); //setSellersCorrectiveInvoiceNo(intermediate5_6[1]);
+			} catch (NullPointerException e) {
+				//System.out.println(e.getMessage().toString());
+			} catch (ArrayIndexOutOfBoundsException e2) {
+				
+			}
+			
+			//NEXT VARIABLE TO WORK ON //setSellersCorrectiveInvoiceNo(intermediate5_6[1]);
+			
 		}
 		
 		private void outPut(){
 			
 		}
 		
-		public String caseInfo (Cell info, String character){
+		public String [] caseInfo (Cell info, String character){
 			double num;
 			
 			switch (info.getCellType()){
@@ -68,38 +98,61 @@ import org.apache.poi.ss.usermodel.Row;
 			case Cell.CELL_TYPE_NUMERIC:{
 				
 				num = info.getNumericCellValue();
-				return Double.toString(num);
+				return new String[] {Double.toString(num)};
 			}
 			case Cell.CELL_TYPE_BLANK:
-				break;
+				return null;
 			case Cell.CELL_TYPE_ERROR:
 				
-				break;
+				return null;
 			case Cell.CELL_TYPE_FORMULA:
-				break;
+				return null;
 	
 				default:{
 					
 					
-					if (info.getStringCellValue() != ""){
+				//	if (info.getStringCellValue() != ""){
+					
+						String part1 = null;
+						String part2 = null;
+						String[] parts = null;
 						
-					String[] parts = info.getStringCellValue().split(character);
-					String part1 = parts[0];
-					
-					String part2 = parts[1];
-					Temp = part2;
-				//	int num = (int)letter[0]
-					part1 = part1.substring(0,part1.length()-1);
-					//System.out.println(part1 + " " + part2);
-					return part1;
-					
-					
+						System.out.println(info.getCellType());
+						System.out.println(this.getNo());
+						System.out.println(info.getRowIndex());
+						System.out.println(info.getStringCellValue());
+						
+						try{
+					parts = info.getStringCellValue().split(character);
+					part1 = parts[0];
+					part2 = parts[1];
+					System.out.println("parts 0 " + parts[0]);
+					System.out.println("parts 1 " + parts[1]);
+					System.out.println(parts.toString());
 						}
-					else
-						return null;
-					}
+						catch(ArrayIndexOutOfBoundsException e) {
+							System.out.println(part1 + " broken 1 " + part2);
+							System.out.println(info.getCellType());
+						}catch(StringIndexOutOfBoundsException e) {
+							System.out.println(part1 + " broken 2 " + part2);
+							System.out.println(info.getCellType());
+						}
+						
+						System.out.println(part1 + " broken 3 " + part2);
+					Temp = part2;
+					//	int num = (int)letter[0]
+				//	part1 = part1.substring(0,part1.length()-1);
+					System.out.println(part1 + " " + part2);
+					return parts;
 				}
-			return null;
+			}
+					
+				//		}
+				//	else
+				//		return null;
+				//	}
+				
+		//	return null;
 			
 		// if ((info.getStringCellValue() != null) && (info.getStringCellValue() != "")) {
 		//  Charset.forName("UTF-8").encode(info);
@@ -153,23 +206,23 @@ import org.apache.poi.ss.usermodel.Row;
 		public void setSellersAdjustmentAmount(String sellersAdjustmentAmount) {
 			this.sellersAdjustmentAmount = sellersAdjustmentAmount;
 		}
-		public Calendar getDateOfSellersAdjustment() {
+		public String getDateOfSellersAdjustment() {
 			return dateOfSellersAdjustment;
 		}
-		public void setDateOfSellersAdjustment(Calendar dateOfSellersAdjustment) {
+		public void setDateOfSellersAdjustment(String dateOfSellersAdjustment) {
 			this.dateOfSellersAdjustment = dateOfSellersAdjustment;
 		}
-		public Integer getSellersCorrectiveInvoiceNo() {
+		public String getSellersCorrectiveInvoiceNo() {
 			return sellersCorrectiveInvoiceNo;
 		}
-		public void setSellersCorrectiveInvoiceNo(Integer sellersCorrectiveInvoiceNo) {
+		public void setSellersCorrectiveInvoiceNo(String sellersCorrectiveInvoiceNo) {
 			this.sellersCorrectiveInvoiceNo = sellersCorrectiveInvoiceNo;
 		}
-		public Calendar getDateOfCorrectiveSellersInvoice() {
+		public String getDateOfCorrectiveSellersInvoice() {
 			return dateOfCorrectiveSellersInvoice;
 		}
 		public void setDateOfCorrectiveSellersInvoice(
-				Calendar dateOfCorrectiveSellersInvoice) {
+				String dateOfCorrectiveSellersInvoice) {
 			this.dateOfCorrectiveSellersInvoice = dateOfCorrectiveSellersInvoice;
 		}
 		public Integer getAdjustiveSellersCorrectiveInvoiceNo() {
@@ -179,11 +232,11 @@ import org.apache.poi.ss.usermodel.Row;
 				Integer adjustiveSellersCorrectiveInvoiceNo) {
 			this.adjustiveSellersCorrectiveInvoiceNo = adjustiveSellersCorrectiveInvoiceNo;
 		}
-		public Calendar getDateOfAdjustedSellersCorrectiveInvoice() {
+		public String getDateOfAdjustedSellersCorrectiveInvoice() {
 			return dateOfAdjustedSellersCorrectiveInvoice;
 		}
 		public void setDateOfAdjustedSellersCorrectiveInvoice(
-				Calendar dateOfAdjustedSellersCorrectiveInvoice) {
+				String dateOfAdjustedSellersCorrectiveInvoice) {
 			this.dateOfAdjustedSellersCorrectiveInvoice = dateOfAdjustedSellersCorrectiveInvoice;
 		}
 		public Integer getNumberOfPaymentConfirmationDocument() {
@@ -193,17 +246,17 @@ import org.apache.poi.ss.usermodel.Row;
 				Integer numberOfPaymentConfirmationDocument) {
 			this.numberOfPaymentConfirmationDocument = numberOfPaymentConfirmationDocument;
 		}
-		public Calendar getDateOfPaymentConfirmationDocument() {
+		public String getDateOfPaymentConfirmationDocument() {
 			return dateOfPaymentConfirmationDocument;
 		}
 		public void setDateOfPaymentConfirmationDocument(
-				Calendar dateOfPaymentConfirmationDocument) {
+				String dateOfPaymentConfirmationDocument) {
 			this.dateOfPaymentConfirmationDocument = dateOfPaymentConfirmationDocument;
 		}
-		public Calendar getDateOfRecording() {
+		public String getDateOfRecording() {
 			return dateOfRecording;
 		}
-		public void setDateOfRecording(Calendar dateOfRecording) {
+		public void setDateOfRecording(String dateOfRecording) {
 			this.dateOfRecording = dateOfRecording;
 		}
 		
