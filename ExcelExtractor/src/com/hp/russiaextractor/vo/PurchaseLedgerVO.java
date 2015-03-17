@@ -122,15 +122,17 @@ import org.apache.poi.ss.usermodel.Row;
 								} catch (NullPointerException e) {
 								} catch (ArrayIndexOutOfBoundsException e2) {				
 								}
-			//End of 11_12					
+			//End of 11_12			
+							
 			
 			this.dateOfRecording = newRow.getCell(27).getStringCellValue();
 			this.nameOfSeller = newRow.getCell(38).getStringCellValue();		
 		
 		// Start 15_16 ED CHARACTER SYMBOL TO SPLIT
-			String[] intermediate15_16 = this.caseInfo(newRow.getCell(51), "\\u007c");
+			String[] intermediate15_16 = this.caseInfo(newRow.getCell(27), "/"); //set back to 27
 				try {
-							setTinOfSeller(intermediate15_16[0]); 
+							setTinOfSeller(intermediate15_16[0]);
+							
 							} catch (NullPointerException e) {
 							}
 							try{
@@ -138,7 +140,10 @@ import org.apache.poi.ss.usermodel.Row;
 							} catch (NullPointerException e) {
 							} catch (ArrayIndexOutOfBoundsException e2) {				
 							}
+
+							System.out.println("look here");
 		//End of 13_14		
+							
 			
 			this.nameOfIntermediary = newRow.getCell(64).getStringCellValue();					
 							
