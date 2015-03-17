@@ -51,6 +51,8 @@ import org.apache.poi.ss.usermodel.Row;
 		{
 			this.setNo((int) newRow.getCell(0).getNumericCellValue());
 			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
+			
+			// Start 3_4
 			String[] intermediate3_4 = this.caseInfo(newRow.getCell(2), "\\u007c");
 			try {
 				this.invoiceDate = intermediate3_4[0];
@@ -63,8 +65,9 @@ import org.apache.poi.ss.usermodel.Row;
 				//System.out.println(e.getMessage().toString());
 			}
 			 
-			// this.sellersAdjustmentAmount = this.caseInfo(newRow.getCell(5)," ");
+			// End 3_4
 			
+			// Start 5_6
 			
 			String[] intermediate5_6 = this.caseInfo(newRow.getCell(5), "\\u007c");
 			try {
@@ -74,16 +77,28 @@ import org.apache.poi.ss.usermodel.Row;
 				//System.out.println(e.getMessage().toString());
 			}
 			try{
-				//this.sellersCorrectiveInvoiceNo = intermediate6_7[1];
 				setDateOfSellersAdjustment(intermediate5_6[1]); //setSellersCorrectiveInvoiceNo(intermediate5_6[1]);
 			} catch (NullPointerException e) {
 				//System.out.println(e.getMessage().toString());
 			} catch (ArrayIndexOutOfBoundsException e2) {
 				
 			}
+			//End of 5_6
 			
-			//NEXT VARIABLE TO WORK ON //setSellersCorrectiveInvoiceNo(intermediate5_6[1]);
 			
+			// Start 7_8
+			
+			String[] intermediate7_8 = this.caseInfo(newRow.getCell(8), "\\u007c");
+				try {
+					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); 
+						} catch (NullPointerException e) {
+						}
+						try{
+							setDateOfCorrectiveSellersInvoice(intermediate7_8[1]);
+						} catch (NullPointerException e) {
+						} catch (ArrayIndexOutOfBoundsException e2) {				
+						}
+			//End of 7_8
 		}
 		
 		private void outPut(){

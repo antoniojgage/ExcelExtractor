@@ -31,10 +31,11 @@ public class SalesLedgerTransformer {
 	 public static void main(String[] args) throws FileNotFoundException {
 	 // public void readWriteSpreadsheet(File in, File out) throws FileNotFoundException {
 		
-		 String in2 = "C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\Purchase Ledger MS AX Original.xlsx";
+		 String in1 = "D:\\Dropbox\\Russia Java Project\\Purchase Ledger MS AX Original-old.xlsx";
+		// String in2 = "C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\Purchase Ledger MS AX Original.xlsx";
 		//String in3 = "C:\\Users\\jrcoo_000\\Desktop\\Purchase Ledger MS AX Original.xlsx";
 		//InputStream inputS = new FileInputStream(in2);
-		InputStream inputS = new FileInputStream(in2);
+		InputStream inputS = new FileInputStream(in1);
 		
 		// ArrayList<SalesLedgerVO> salesLedgerList = new ArrayList<SalesLedgerVO>();
 		
@@ -87,8 +88,8 @@ public class SalesLedgerTransformer {
 			outRow.createCell(3).setCellValue(purchase.getSellersInvoice());
 			outRow.createCell(4).setCellValue(purchase.getSellersAdjustmentAmount()); //5
 			outRow.createCell(5).setCellValue(purchase.getDateOfSellersAdjustment());
-			// outRow.createCell(6).setCellValue(purchase.getSellersCorrectiveInvoiceNo());
-			
+			outRow.createCell(6).setCellValue(purchase.getSellersCorrectiveInvoiceNo());
+			outRow.createCell(7).setCellValue(purchase.getDateOfCorrectiveSellersInvoice());
 			
 /*		for(int r = 0; r < 10; r++){
 				
@@ -124,7 +125,7 @@ public class SalesLedgerTransformer {
 	}
 		
 		
-		FileOutputStream fileOut = new FileOutputStream("C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\workbook.xls");
+		FileOutputStream fileOut = new FileOutputStream("D:\\Dropbox\\Russia Java Project\\workbook.xls");
 	    outWorkbook.write(fileOut);
 	    fileOut.close();
 		outWorkbook.close();
