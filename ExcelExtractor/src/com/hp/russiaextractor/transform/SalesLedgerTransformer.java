@@ -90,6 +90,16 @@ public class SalesLedgerTransformer {
 			outRow.createCell(5).setCellValue(purchase.getDateOfSellersAdjustment());
 			outRow.createCell(6).setCellValue(purchase.getSellersCorrectiveInvoiceNo());
 			outRow.createCell(7).setCellValue(purchase.getDateOfCorrectiveSellersInvoice());
+			outRow.createCell(8).setCellValue(purchase.getAdjustiveSellersCorrectiveInvoiceNo());
+			outRow.createCell(9).setCellValue(purchase.getDateOfAdjustedSellersCorrectiveInvoice());
+			outRow.createCell(10).setCellValue(purchase.getNumberOfPaymentConfirmationDocument());
+			outRow.createCell(11).setCellValue(purchase.getDateOfPaymentConfirmationDocument());
+			outRow.createCell(12).setCellValue(purchase.getDateOfRecording());
+			outRow.createCell(13).setCellValue(purchase.getNameOfSeller());
+			outRow.createCell(14).setCellValue(purchase.getTinOfSeller());
+			outRow.createCell(15).setCellValue(purchase.getCrrOfSeller());
+			outRow.createCell(16).setCellValue(purchase.getNameOfIntermediary());
+			
 			
 /*		for(int r = 0; r < 10; r++){
 				

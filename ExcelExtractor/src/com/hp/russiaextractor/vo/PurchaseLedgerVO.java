@@ -1,7 +1,6 @@
 package com.hp.russiaextractor.vo;
 	
 	import java.io.Serializable;
-import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +17,7 @@ import org.apache.poi.ss.usermodel.Row;
 		private static final long serialVersionUID = 7382825154783915791L;
 		
 		//Purchase Ledger Variables 
-		private Integer no; //1
+		private int no; //1
 		private String transactionTypeCode; //2
 		private String invoiceDate; //3
 		private String sellersInvoice; //4
@@ -26,24 +25,24 @@ import org.apache.poi.ss.usermodel.Row;
 		private String dateOfSellersAdjustment; //6
 		private String sellersCorrectiveInvoiceNo; //7
 		private String dateOfCorrectiveSellersInvoice; //8
-		private Integer adjustiveSellersCorrectiveInvoiceNo; //9
+		private String adjustiveSellersCorrectiveInvoiceNo; //9
 		private String dateOfAdjustedSellersCorrectiveInvoice; //10
-		private Integer numberOfPaymentConfirmationDocument; //11
+		private String numberOfPaymentConfirmationDocument; //11
 		private String dateOfPaymentConfirmationDocument; //12
 		private String dateOfRecording; //13
-		private char nameOfSeller; //14
-		private Integer tinOfSeller; //15
-		private Integer crrOfSeller; //16
-		private char nameOfIntermediary; //17
-		private Integer tinOfIntermediary; //18
-		private Integer crrofIntermediary; //19
-		private Integer numberOfCustomsDeclaration; //20
-		private Integer currencyCodePerOKV; //21
-		private Integer valueOfPurchasesVAT; //22
-		private Integer differenceInValueVatToCorrectiveInvoice; //23
-		private Integer amountOfDeductibleVat; //24
-		private Integer differenceInVatAccordingToCorrectiveInvoice; //25
-		private char copiedLine; //26
+		private String nameOfSeller; //14
+		private String tinOfSeller; //15
+		private String crrOfSeller; //16
+		private String nameOfIntermediary; //17
+		private String tinOfIntermediary; //18
+		private String crrofIntermediary; //19
+		private String numberOfCustomsDeclaration; //20
+		private String currencyCodePerOKV; //21
+		private String valueOfPurchasesVAT; //22
+		private String differenceInValueVatToCorrectiveInvoice; //23
+		private String amountOfDeductibleVat; //24
+		private String differenceInVatAccordingToCorrectiveInvoice; //25
+		private String copiedLine; //26
 		private Row createRow;
 		private String Temp;
 		
@@ -87,7 +86,6 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			
 			// Start 7_8
-			
 			String[] intermediate7_8 = this.caseInfo(newRow.getCell(8), "\\u007c");
 				try {
 					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); 
@@ -99,13 +97,60 @@ import org.apache.poi.ss.usermodel.Row;
 						} catch (ArrayIndexOutOfBoundsException e2) {				
 						}
 			//End of 7_8
+						
+			// Start 9_10
+				String[] intermediate9_10 = this.caseInfo(newRow.getCell(11), "\\u007c");
+					try {
+						setAdjustiveSellersCorrectiveInvoiceNo(intermediate9_10[0]); 
+						} catch (NullPointerException e) {
+						}
+						try{
+						setDateOfAdjustedSellersCorrectiveInvoice(intermediate9_10[1]);
+						} catch (NullPointerException e) {
+						} catch (ArrayIndexOutOfBoundsException e2) {				
+						}
+			//End of 9_10			
+						
+			// Start 11_12 NEED CHARACTER SYMBOL TO SPLIT
+				String[] intermediate11_12 = this.caseInfo(newRow.getCell(14), " ");
+					try {
+								setNumberOfPaymentConfirmationDocument(intermediate11_12[0]); 
+								} catch (NullPointerException e) {
+								}
+								try{
+								setDateOfPaymentConfirmationDocument(intermediate11_12[1]);
+								} catch (NullPointerException e) {
+								} catch (ArrayIndexOutOfBoundsException e2) {				
+								}
+			//End of 11_12					
+			
+			this.dateOfRecording = newRow.getCell(27).getStringCellValue();
+			this.nameOfSeller = newRow.getCell(38).getStringCellValue();		
+		
+		// Start 15_16 ED CHARACTER SYMBOL TO SPLIT
+			String[] intermediate15_16 = this.caseInfo(newRow.getCell(51), "\\u007c");
+				try {
+							setTinOfSeller(intermediate15_16[0]); 
+							} catch (NullPointerException e) {
+							}
+							try{
+							setCrrOfSeller(intermediate15_16[1]);
+							} catch (NullPointerException e) {
+							} catch (ArrayIndexOutOfBoundsException e2) {				
+							}
+		//End of 13_14		
+			
+			this.nameOfIntermediary = newRow.getCell(64).getStringCellValue();					
+							
+							
+							
 		}
 		
 		private void outPut(){
 			
 		}
 		
-		public String [] caseInfo (Cell info, String character){
+		public String [] caseInfo (Cell info, String Stringacter){
 			double num;
 			
 			switch (info.getCellType()){
@@ -138,7 +183,7 @@ import org.apache.poi.ss.usermodel.Row;
 						System.out.println(info.getStringCellValue());
 						
 						try{
-					parts = info.getStringCellValue().split(character);
+					parts = info.getStringCellValue().split(Stringacter);
 					part1 = parts[0];
 					part2 = parts[1];
 					System.out.println("parts 0 " + parts[0]);
@@ -170,10 +215,10 @@ import org.apache.poi.ss.usermodel.Row;
 		//	return null;
 			
 		// if ((info.getStringCellValue() != null) && (info.getStringCellValue() != "")) {
-		//  Charset.forName("UTF-8").encode(info);
+		//  Stringset.forName("UTF-8").encode(info);
 		//	byte bytes[] = info.getBytes("ISO-8859-1");
 		//	String myString = new String(bytes, "UTF-8");
-		//	String[] parts = info.getStringCellValue().split(character);
+		//	String[] parts = info.getStringCellValue().split(Stringacter);
 		//	String part1 = parts[0];
 		//	String part2 = parts[1];
 		//	Temp = part2;
@@ -190,10 +235,10 @@ import org.apache.poi.ss.usermodel.Row;
 		//}
 		
 		
-		public Integer getNo() {
+		public int getNo() {
 			return no;
 		}
-		public void setNo(Integer no) {
+		public void setNo(int no) {
 			this.no = no;
 		}
 		public String getTransactionTypeCode() {
@@ -240,11 +285,11 @@ import org.apache.poi.ss.usermodel.Row;
 				String dateOfCorrectiveSellersInvoice) {
 			this.dateOfCorrectiveSellersInvoice = dateOfCorrectiveSellersInvoice;
 		}
-		public Integer getAdjustiveSellersCorrectiveInvoiceNo() {
+		public String getAdjustiveSellersCorrectiveInvoiceNo() {
 			return adjustiveSellersCorrectiveInvoiceNo;
 		}
 		public void setAdjustiveSellersCorrectiveInvoiceNo(
-				Integer adjustiveSellersCorrectiveInvoiceNo) {
+				String adjustiveSellersCorrectiveInvoiceNo) {
 			this.adjustiveSellersCorrectiveInvoiceNo = adjustiveSellersCorrectiveInvoiceNo;
 		}
 		public String getDateOfAdjustedSellersCorrectiveInvoice() {
@@ -254,11 +299,11 @@ import org.apache.poi.ss.usermodel.Row;
 				String dateOfAdjustedSellersCorrectiveInvoice) {
 			this.dateOfAdjustedSellersCorrectiveInvoice = dateOfAdjustedSellersCorrectiveInvoice;
 		}
-		public Integer getNumberOfPaymentConfirmationDocument() {
+		public String getNumberOfPaymentConfirmationDocument() {
 			return numberOfPaymentConfirmationDocument;
 		}
 		public void setNumberOfPaymentConfirmationDocument(
-				Integer numberOfPaymentConfirmationDocument) {
+				String numberOfPaymentConfirmationDocument) {
 			this.numberOfPaymentConfirmationDocument = numberOfPaymentConfirmationDocument;
 		}
 		public String getDateOfPaymentConfirmationDocument() {
@@ -275,84 +320,84 @@ import org.apache.poi.ss.usermodel.Row;
 			this.dateOfRecording = dateOfRecording;
 		}
 		
-		public char getNameOfSeller() {
+		public String getNameOfSeller() {
 			return nameOfSeller;
 		}
-		public void setNameOfSeller(char nameOfSeller) {
+		public void setNameOfSeller(String nameOfSeller) {
 			this.nameOfSeller = nameOfSeller;
 		}
-		public Integer getTinOfSeller() {
+		public String getTinOfSeller() {
 			return tinOfSeller;
 		}
-		public void setTinOfSeller(Integer tinOfSeller) {
+		public void setTinOfSeller(String tinOfSeller) {
 			this.tinOfSeller = tinOfSeller;
 		}
-		public Integer getCrrOfSeller() {
+		public String getCrrOfSeller() {
 			return crrOfSeller;
 		}
-		public void setCrrOfSeller(Integer crrOfSeller) {
+		public void setCrrOfSeller(String crrOfSeller) {
 			this.crrOfSeller = crrOfSeller;
 		}
-		public char getNameOfIntermediary() {
+		public String getNameOfIntermediary() {
 			return nameOfIntermediary;
 		}
-		public void setNameOfIntermediary(char nameOfIntermediary) {
+		public void setNameOfIntermediary(String nameOfIntermediary) {
 			this.nameOfIntermediary = nameOfIntermediary;
 		}
-		public Integer getTinOfIntermediary() {
+		public String getTinOfIntermediary() {
 			return tinOfIntermediary;
 		}
-		public void setTinOfIntermediary(Integer tinOfIntermediary) {
+		public void setTinOfIntermediary(String tinOfIntermediary) {
 			this.tinOfIntermediary = tinOfIntermediary;
 		}
-		public Integer getCrrofIntermediary() {
+		public String getCrrofIntermediary() {
 			return crrofIntermediary;
 		}
-		public void setCrrofIntermediary(Integer crrofIntermediary) {
+		public void setCrrofIntermediary(String crrofIntermediary) {
 			this.crrofIntermediary = crrofIntermediary;
 		}
-		public Integer getNumberOfCustomsDeclaration() {
+		public String getNumberOfCustomsDeclaration() {
 			return numberOfCustomsDeclaration;
 		}
-		public void setNumberOfCustomsDeclaration(Integer numberOfCustomsDeclaration) {
+		public void setNumberOfCustomsDeclaration(String numberOfCustomsDeclaration) {
 			this.numberOfCustomsDeclaration = numberOfCustomsDeclaration;
 		}
-		public Integer getCurrencyCodePerOKV() {
+		public String getCurrencyCodePerOKV() {
 			return currencyCodePerOKV;
 		}
-		public void setCurrencyCodePerOKV(Integer currencyCodePerOKV) {
+		public void setCurrencyCodePerOKV(String currencyCodePerOKV) {
 			this.currencyCodePerOKV = currencyCodePerOKV;
 		}
-		public Integer getValueOfPurchasesVAT() {
+		public String getValueOfPurchasesVAT() {
 			return valueOfPurchasesVAT;
 		}
-		public void setValueOfPurchasesVAT(Integer valueOfPurchasesVAT) {
+		public void setValueOfPurchasesVAT(String valueOfPurchasesVAT) {
 			this.valueOfPurchasesVAT = valueOfPurchasesVAT;
 		}
-		public Integer getDifferenceInValueVatToCorrectiveInvoice() {
+		public String getDifferenceInValueVatToCorrectiveInvoice() {
 			return differenceInValueVatToCorrectiveInvoice;
 		}
 		public void setDifferenceInValueVatToCorrectiveInvoice(
-				Integer differenceInValueVatToCorrectiveInvoice) {
+				String differenceInValueVatToCorrectiveInvoice) {
 			this.differenceInValueVatToCorrectiveInvoice = differenceInValueVatToCorrectiveInvoice;
 		}
-		public Integer getAmountOfDeductibleVat() {
+		public String getAmountOfDeductibleVat() {
 			return amountOfDeductibleVat;
 		}
-		public void setAmountOfDeductibleVat(Integer amountOfDeductibleVat) {
+		public void setAmountOfDeductibleVat(String amountOfDeductibleVat) {
 			this.amountOfDeductibleVat = amountOfDeductibleVat;
 		}
-		public Integer getDifferenceInVatAccordingToCorrectiveInvoice() {
+		public String getDifferenceInVatAccordingToCorrectiveInvoice() {
 			return differenceInVatAccordingToCorrectiveInvoice;
 		}
 		public void setDifferenceInVatAccordingToCorrectiveInvoice(
-				Integer differenceInVatAccordingToCorrectiveInvoice) {
+				String differenceInVatAccordingToCorrectiveInvoice) {
 			this.differenceInVatAccordingToCorrectiveInvoice = differenceInVatAccordingToCorrectiveInvoice;
 		}
-		public char getCopiedLine() {
+		public String getCopiedLine() {
 			return copiedLine;
 		}
-		public void setCopiedLine(char copiedLine) {
+		public void setCopiedLine(String copiedLine) {
 			this.copiedLine = copiedLine;
 		}
 }
