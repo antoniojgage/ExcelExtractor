@@ -129,7 +129,7 @@ import org.apache.poi.ss.usermodel.Row;
 			this.nameOfSeller = newRow.getCell(38).getStringCellValue();		
 		
 		// Start 15_16 ED CHARACTER SYMBOL TO SPLIT
-			String[] intermediate15_16 = this.caseInfo(newRow.getCell(27), "/"); //set back to 27
+			String[] intermediate15_16 = this.caseInfo(newRow.getCell(27), "\\u007c"); //set back to 27
 				try {
 							setTinOfSeller(intermediate15_16[0]);
 							
@@ -139,7 +139,11 @@ import org.apache.poi.ss.usermodel.Row;
 							setCrrOfSeller(intermediate15_16[1]);
 							} catch (NullPointerException e) {
 							} catch (ArrayIndexOutOfBoundsException e2) {				
+									if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
+									
+									}
 							}
+							
 
 							System.out.println("look here");
 		//End of 13_14		
@@ -166,7 +170,7 @@ import org.apache.poi.ss.usermodel.Row;
 				return new String[] {Double.toString(num)};
 			}
 			case Cell.CELL_TYPE_BLANK:
-				return null;
+				return new String[] {"-"};
 			case Cell.CELL_TYPE_ERROR:
 				
 				return null;

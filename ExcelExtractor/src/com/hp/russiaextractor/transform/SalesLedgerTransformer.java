@@ -31,11 +31,11 @@ public class SalesLedgerTransformer {
 	 public static void main(String[] args) throws FileNotFoundException {
 	 // public void readWriteSpreadsheet(File in, File out) throws FileNotFoundException {
 		
-		 String in1 = "D:\\Dropbox\\Russia Java Project\\Purchase Ledger MS AX Original-old.xlsx";
-		// String in2 = "C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\Purchase Ledger MS AX Original.xlsx";
+		// String in1 = "D:\\Dropbox\\Russia Java Project\\Purchase Ledger MS AX Original-old.xlsx";
+		 String in2 = "C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\Purchase Ledger MS AX Original-old.xlsx";
 		//String in3 = "C:\\Users\\jrcoo_000\\Desktop\\Purchase Ledger MS AX Original.xlsx";
 		//InputStream inputS = new FileInputStream(in2);
-		InputStream inputS = new FileInputStream(in1);
+		InputStream inputS = new FileInputStream(in2);
 		
 		// ArrayList<SalesLedgerVO> salesLedgerList = new ArrayList<SalesLedgerVO>();
 		
@@ -134,8 +134,8 @@ public class SalesLedgerTransformer {
 		}
 	}
 		
-		
-		FileOutputStream fileOut = new FileOutputStream("D:\\Dropbox\\Russia Java Project\\workbook.xls");
+		FileOutputStream fileOut = new FileOutputStream("C:\\Users\\gagean\\Documents\\FY15-GFIT-GRC-FIN-STD-BRAZIL\\Russia Java Project\\workbook.xls");
+		//FileOutputStream fileOut = new FileOutputStream("D:\\Dropbox\\Russia Java Project\\workbook.xls");
 	    outWorkbook.write(fileOut);
 	    fileOut.close();
 		outWorkbook.close();
