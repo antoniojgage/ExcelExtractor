@@ -1,22 +1,11 @@
 package com.hp.russiaextractor.vo;
 	
 	import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 //import java.util.String;
 import java.util.Date;
 //import java.util.GregorianString;
 
-
-
-
-
-
-
-
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -38,7 +27,7 @@ import org.apache.poi.ss.usermodel.Row;
 		private String dateOfAdjustedSellersCorrectiveInvoice; //10
 		private String numberOfPaymentConfirmationDocument; //11
 		private String dateOfPaymentConfirmationDocument; //12
-		private String dateOfRecording; //13
+		private Calendar dateOfRecording; //13
 		private String nameOfSeller; //14
 		private String tinOfSeller; //15
 		private String crrOfSeller; //16
@@ -135,21 +124,18 @@ import org.apache.poi.ss.usermodel.Row;
 			//End of 11_12			
 							
 			
-						
-		    /* this.dateOfRecording = newRow.getCell(24).getDateCellValue(); { //date issues!
-		    	 if (DateUtil.isCellDateFormatted(newRow.getCell (24)))
+			//Date of recording logic			
+		     this.dateOfRecording = Calendar.getInstance();
+		     try {
+		    	 this.dateOfRecording.setTime(newRow.getCell(24).getDateCellValue());
+		     } catch (IllegalStateException ise) {this.dateOfRecording = null;}
+		    	 /*if (DateUtil.isCellDateFormatted(newRow.getCell (24)))
 		    	 {
-		    	    try {
-
-		    	     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    	    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		    	     Cell currentCell = null;
 					dateOfRecording = sdf(currentCell.getDateCellValue());
-
-		    	     } //catch (ParseException e) {
-		    	            // e.printStackTrace();
-		    	     }
-		    	 }
-		     }  */
+		    	 }*/
+		     //end date of recording logic
 		    	 
 			 this.nameOfSeller = newRow.getCell(34).getStringCellValue();		
 		
@@ -204,8 +190,9 @@ import org.apache.poi.ss.usermodel.Row;
 									
 									}
 							}
-			
+		     
 			this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue();	
+			
 			this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue();	
 			
 		}
@@ -222,7 +209,7 @@ import org.apache.poi.ss.usermodel.Row;
 		public String [] caseInfo (Cell info, String Stringacter){
 			double num;  
 			
-			switch (info.getCellType()){
+			switch (info.getCellType()) {
 			
 			case Cell.CELL_TYPE_NUMERIC:{
 				if (DateUtil.isCellDateFormatted(info)) {
@@ -384,10 +371,10 @@ import org.apache.poi.ss.usermodel.Row;
 				String dateOfPaymentConfirmationDocument) {
 			this.dateOfPaymentConfirmationDocument = dateOfPaymentConfirmationDocument;
 		}
-		public String getDateOfRecording() {
+		public Calendar getDateOfRecording() {
 			return dateOfRecording;
 		}
-		public void setDateOfRecording(String dateOfRecording) {
+		public void setDateOfRecording(Calendar dateOfRecording) {
 			this.dateOfRecording = dateOfRecording;
 		}
 		
