@@ -13,6 +13,9 @@ import java.util.Date;
 
 
 
+
+
+
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -35,7 +38,7 @@ import org.apache.poi.ss.usermodel.Row;
 		private String dateOfAdjustedSellersCorrectiveInvoice; //10
 		private String numberOfPaymentConfirmationDocument; //11
 		private String dateOfPaymentConfirmationDocument; //12
-		private Date dateOfRecording; //13
+		private String dateOfRecording; //13
 		private String nameOfSeller; //14
 		private String tinOfSeller; //15
 		private String crrOfSeller; //16
@@ -44,8 +47,8 @@ import org.apache.poi.ss.usermodel.Row;
 		private String crrofIntermediary; //19
 		private String numberOfCustomsDeclaration; //20
 		private String currencyCodePerOKV; //21
-		private String valueOfPurchasesVAT; //22
-		private String differenceInValueVatToCorrectiveInvoice; //23
+		private double valueOfPurchasesVAT; //22
+		private double differenceInValueVatToCorrectiveInvoice; //23
 		private String amountOfDeductibleVat; //24
 		private String differenceInVatAccordingToCorrectiveInvoice; //25
 		private String copiedLine; //26
@@ -133,11 +136,25 @@ import org.apache.poi.ss.usermodel.Row;
 							
 			
 						
-		    // this.dateOfRecording = newRow.getCell(24).getDateCellValue(); //date issues!
-			// this.nameOfSeller = newRow.getCell(34).getStringCellValue();		
+		    /* this.dateOfRecording = newRow.getCell(24).getDateCellValue(); { //date issues!
+		    	 if (DateUtil.isCellDateFormatted(newRow.getCell (24)))
+		    	 {
+		    	    try {
+
+		    	     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    	     Cell currentCell = null;
+					dateOfRecording = sdf(currentCell.getDateCellValue());
+
+		    	     } //catch (ParseException e) {
+		    	            // e.printStackTrace();
+		    	     }
+		    	 }
+		     }  */
+		    	 
+			 this.nameOfSeller = newRow.getCell(34).getStringCellValue();		
 		
 		// Start 15_16 ED CHARACTER SYMBOL TO SPLIT
-			String[] intermediate15_16 = this.caseInfo(newRow.getCell(27), "\\u002f"); //set back to 27
+			String[] intermediate15_16 = this.caseInfo(newRow.getCell(45), "/"); 
 				try {
 							setTinOfSeller(intermediate15_16[0]);
 							
@@ -157,12 +174,47 @@ import org.apache.poi.ss.usermodel.Row;
 		//End of 13_14		
 							
 			
-			this.nameOfIntermediary = newRow.getCell(64).getStringCellValue();					
-							
-							
-							
+			this.nameOfIntermediary = newRow.getCell(57).getStringCellValue();	//field 17				
+		
+			// Start 18_19 ED CHARACTER SYMBOL TO SPLIT
+						String[] intermediate18_19 = this.caseInfo(newRow.getCell(67), "/"); 
+							try {
+										setTinOfIntermediary(intermediate18_19[0]);
+										
+										} catch (NullPointerException e) {
+										}
+										try{
+										setCrrofIntermediary(intermediate18_19[1]);
+										} catch (NullPointerException e) {
+										} catch (ArrayIndexOutOfBoundsException e2) {				
+												if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
+												
+												}
+										}
+			
+			this.numberOfCustomsDeclaration = newRow.getCell(68).getStringCellValue();	
+
+			// Start 21 ED CHARACTER SYMBOL TO SPLIT
+			String[] intermediate_19 = this.caseInfo(newRow.getCell(78), ","); 
+				try {
+					setCurrencyCodePerOKV(intermediate_19[1]);
+							} catch (NullPointerException e) {
+							} catch (ArrayIndexOutOfBoundsException e2) {				
+									if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
+									
+									}
+							}
+			
+			this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue();	
+			this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue();	
+			
 		}
 		
+		private Date sdf(Date dateCellValue) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 		private void outPut(){
 			
 		}
@@ -174,8 +226,8 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			case Cell.CELL_TYPE_NUMERIC:{
 				if (DateUtil.isCellDateFormatted(info)) {
-				Date date = info.getDateCellValue();
-					//num = info.getDateCellValue();
+					num = info.getNumericCellValue();
+					return new String[] {Double.toString(num)};
 			}
 			}
 			case Cell.CELL_TYPE_BLANK:
@@ -332,10 +384,10 @@ import org.apache.poi.ss.usermodel.Row;
 				String dateOfPaymentConfirmationDocument) {
 			this.dateOfPaymentConfirmationDocument = dateOfPaymentConfirmationDocument;
 		}
-		public Date getDateOfRecording() {
+		public String getDateOfRecording() {
 			return dateOfRecording;
 		}
-		public void setDateOfRecording(Date dateOfRecording) {
+		public void setDateOfRecording(String dateOfRecording) {
 			this.dateOfRecording = dateOfRecording;
 		}
 		
@@ -387,17 +439,17 @@ import org.apache.poi.ss.usermodel.Row;
 		public void setCurrencyCodePerOKV(String currencyCodePerOKV) {
 			this.currencyCodePerOKV = currencyCodePerOKV;
 		}
-		public String getValueOfPurchasesVAT() {
+		public double getValueOfPurchasesVAT() {
 			return valueOfPurchasesVAT;
 		}
-		public void setValueOfPurchasesVAT(String valueOfPurchasesVAT) {
+		public void setValueOfPurchasesVAT(double valueOfPurchasesVAT) {
 			this.valueOfPurchasesVAT = valueOfPurchasesVAT;
 		}
-		public String getDifferenceInValueVatToCorrectiveInvoice() {
+		public double getDifferenceInValueVatToCorrectiveInvoice() {
 			return differenceInValueVatToCorrectiveInvoice;
 		}
 		public void setDifferenceInValueVatToCorrectiveInvoice(
-				String differenceInValueVatToCorrectiveInvoice) {
+				double differenceInValueVatToCorrectiveInvoice) {
 			this.differenceInValueVatToCorrectiveInvoice = differenceInValueVatToCorrectiveInvoice;
 		}
 		public String getAmountOfDeductibleVat() {

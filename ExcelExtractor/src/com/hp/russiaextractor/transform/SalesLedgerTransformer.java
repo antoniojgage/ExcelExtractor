@@ -72,7 +72,36 @@ public class SalesLedgerTransformer {
 			outWorkbook = new HSSFWorkbook(); //creates virtual workbook to store inputvalues
 			outSheet = outWorkbook.createSheet("Conversion1");
 			
+			
+			
 			rowNumber = 1;
+			
+			outRow = outSheet.createRow(0);
+			outRow.createCell(0).setCellValue("getNo");
+			outRow.createCell(1).setCellValue("TransactionTypeCode");
+			outRow.createCell(2).setCellValue("InvoiceDate");
+			outRow.createCell(3).setCellValue("SellersInvoice");
+			outRow.createCell(4).setCellValue("SellersAdjustmentAmount"); //5
+			outRow.createCell(5).setCellValue("DateOfSellersAdjustment");
+			outRow.createCell(6).setCellValue("SellersCorrectiveInvoiceNo");
+			outRow.createCell(7).setCellValue("DateOfCorrectiveSellersInvoice");
+			outRow.createCell(8).setCellValue("AdjustiveSellersCorrectiveInvoiceNo");
+			outRow.createCell(9).setCellValue("DateOfAdjustedSellersCorrectiveInvoice");
+			outRow.createCell(10).setCellValue("NumberOfPaymentConfirmationDocument");
+			outRow.createCell(11).setCellValue("DateOfPaymentConfirmationDocument");
+			outRow.createCell(12).setCellValue("DateOfRecording");
+			outRow.createCell(13).setCellValue("NameOfSeller");
+			outRow.createCell(14).setCellValue("TinOfSeller");
+			outRow.createCell(15).setCellValue("CrrOfSeller");
+			outRow.createCell(16).setCellValue("NameOfIntermediary");
+			outRow.createCell(17).setCellValue("TinOfIntermediary"); 
+			outRow.createCell(18).setCellValue("CrrofIntermediary"); 
+			outRow.createCell(19).setCellValue("NumberOfCustomsDeclaration");
+			outRow.createCell(20).setCellValue("CurrencyCodePerOKV");
+			outRow.createCell(21).setCellValue("ValueOfPurchasesVAT"); 
+			outRow.createCell(22).setCellValue("DifferenceInValueVatToCorrectiveInvoice");
+			outRow.createCell(23).setCellValue("AmountOfDeductibleVat");
+			outRow.createCell(23).setCellValue("DifferenceInVatAccordingToCorrectiveInvoice");
 			
 	
 		for(Row inRow: inSheet) { 
@@ -99,6 +128,14 @@ public class SalesLedgerTransformer {
 			outRow.createCell(14).setCellValue(purchase.getTinOfSeller());
 			outRow.createCell(15).setCellValue(purchase.getCrrOfSeller());
 			outRow.createCell(16).setCellValue(purchase.getNameOfIntermediary());
+			outRow.createCell(17).setCellValue(purchase.getTinOfIntermediary()); 
+			outRow.createCell(18).setCellValue(purchase.getCrrofIntermediary()); 
+			outRow.createCell(19).setCellValue(purchase.getNumberOfCustomsDeclaration());
+			outRow.createCell(20).setCellValue(purchase.getCurrencyCodePerOKV());
+			outRow.createCell(21).setCellValue(purchase.getValueOfPurchasesVAT()); 
+			outRow.createCell(22).setCellValue(purchase.getDifferenceInValueVatToCorrectiveInvoice());
+			outRow.createCell(23).setCellValue(purchase.getAmountOfDeductibleVat());
+			outRow.createCell(23).setCellValue(purchase.getDifferenceInVatAccordingToCorrectiveInvoice());
 			
 			
 /*		for(int r = 0; r < 10; r++){
