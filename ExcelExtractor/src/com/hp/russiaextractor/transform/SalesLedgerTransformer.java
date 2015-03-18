@@ -70,7 +70,7 @@ public class SalesLedgerTransformer {
 		
 			//Logic for SL
 			outWorkbook = new HSSFWorkbook(); //creates virtual workbook to store inputvalues
-			outSheet = outWorkbook.createSheet("antonio");
+			outSheet = outWorkbook.createSheet("Conversion1");
 			
 			rowNumber = 1;
 			
