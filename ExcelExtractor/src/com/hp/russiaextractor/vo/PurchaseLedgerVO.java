@@ -38,8 +38,8 @@ import org.apache.poi.ss.usermodel.Row;
 		private String currencyCodePerOKV; //21
 		private double valueOfPurchasesVAT; //22
 		private double differenceInValueVatToCorrectiveInvoice; //23
-		private String amountOfDeductibleVat; //24
-		private String differenceInVatAccordingToCorrectiveInvoice; //25
+		private double amountOfDeductibleVat; //24
+		private double differenceInVatAccordingToCorrectiveInvoice; //25
 		private String copiedLine; //26
 		private Row createRow;
 		private String Temp;
@@ -60,6 +60,8 @@ import org.apache.poi.ss.usermodel.Row;
 			try {
 				this.sellersInvoice = intermediate3_4[1];; //set to temp to clear the last value
 			}catch (NullPointerException e) {
+			}catch (ArrayIndexOutOfBoundsException e2){
+				
 				//System.out.println(e.getMessage().toString());
 			}
 			 
@@ -137,7 +139,7 @@ import org.apache.poi.ss.usermodel.Row;
 		    	 }*/
 		     //end date of recording logic
 		    	 
-			 this.nameOfSeller = newRow.getCell(34).getStringCellValue();		
+			 this.nameOfSeller = newRow.getCell(34).getStringCellValue();	//VAT14
 		
 		// Start 15_16 ED CHARACTER SYMBOL TO SPLIT
 			String[] intermediate15_16 = this.caseInfo(newRow.getCell(45), "/"); 
@@ -153,10 +155,7 @@ import org.apache.poi.ss.usermodel.Row;
 									if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
 									
 									}
-							}
-							
-
-							
+							}	
 		//End of 13_14		
 							
 			
@@ -178,10 +177,10 @@ import org.apache.poi.ss.usermodel.Row;
 												}
 										}
 			
-			this.numberOfCustomsDeclaration = newRow.getCell(68).getStringCellValue();	
+			this.numberOfCustomsDeclaration = newRow.getCell(68).getStringCellValue();	// VAT20
 
 			// Start 21 ED CHARACTER SYMBOL TO SPLIT
-			String[] intermediate_19 = this.caseInfo(newRow.getCell(78), ","); 
+			String[] intermediate_19 = this.caseInfo(newRow.getCell(78), ","); //VAT21
 				try {
 					setCurrencyCodePerOKV(intermediate_19[1]);
 							} catch (NullPointerException e) {
@@ -190,13 +189,33 @@ import org.apache.poi.ss.usermodel.Row;
 									
 									}
 							}
-		     
-			this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue();	
+		    
+			this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue();	//VAT22
 			
-			this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue();	
-			
-		}
+
+			this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //VAT23
+			this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
+			this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
 		
+		}
+				
+				
+			
+
+				
+				 
+		    
+		
+		
+		private Object getCellValue(int i) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		private Cell getCell(int i) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		private Date sdf(Date dateCellValue) {
 			// TODO Auto-generated method stub
 			return null;
@@ -439,17 +458,17 @@ import org.apache.poi.ss.usermodel.Row;
 				double differenceInValueVatToCorrectiveInvoice) {
 			this.differenceInValueVatToCorrectiveInvoice = differenceInValueVatToCorrectiveInvoice;
 		}
-		public String getAmountOfDeductibleVat() {
+		public double getAmountOfDeductibleVat() {
 			return amountOfDeductibleVat;
 		}
-		public void setAmountOfDeductibleVat(String amountOfDeductibleVat) {
+		public void setAmountOfDeductibleVat(Double amountOfDeductibleVat) {
 			this.amountOfDeductibleVat = amountOfDeductibleVat;
 		}
-		public String getDifferenceInVatAccordingToCorrectiveInvoice() {
+		public double getDifferenceInVatAccordingToCorrectiveInvoice() {
 			return differenceInVatAccordingToCorrectiveInvoice;
 		}
 		public void setDifferenceInVatAccordingToCorrectiveInvoice(
-				String differenceInVatAccordingToCorrectiveInvoice) {
+				double differenceInVatAccordingToCorrectiveInvoice) {
 			this.differenceInVatAccordingToCorrectiveInvoice = differenceInVatAccordingToCorrectiveInvoice;
 		}
 		public String getCopiedLine() {

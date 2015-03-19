@@ -68,13 +68,15 @@ import javax.swing.JLabel;
 	            }
 	        });
 
-	        frame.add(new JLabel("File Chooser"), BorderLayout.NORTH);
+	        frame.add(new JLabel("File Chooser"), BorderLayout.CENTER);
 	        frame.add(openBtn, BorderLayout.CENTER);
 	        frame.add(saveBtn, BorderLayout.SOUTH);
-	        frame.setTitle("File Chooser");
+	        frame.setTitle("Excel Transposer");
 	        frame.pack();
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setVisible(true);
+	        frame.setLocationRelativeTo ( null );
+	        frame.setSize ( 300, 300 );
 	    }
 	}
 

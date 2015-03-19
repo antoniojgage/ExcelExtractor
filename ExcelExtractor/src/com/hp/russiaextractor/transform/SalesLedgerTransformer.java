@@ -109,6 +109,7 @@ public class SalesLedgerTransformer {
 			outRow.createCell(23).setCellValue("AmountOfDeductibleVat");
 			outRow.createCell(23).setCellValue("DifferenceInVatAccordingToCorrectiveInvoice");
 			
+			
 	
 		for(Row inRow: inSheet) { 
 			if((inRow.getRowNum() > 18) && (inRow.getCell(0) != null)  && (inRow.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) && !(inRow.getCell(0).getCellType() == Cell.CELL_TYPE_ERROR))  { 
