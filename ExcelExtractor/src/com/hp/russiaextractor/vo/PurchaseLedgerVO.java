@@ -36,10 +36,10 @@ import org.apache.poi.ss.usermodel.Row;
 		private String crrofIntermediary; //19
 		private String numberOfCustomsDeclaration; //20
 		private String currencyCodePerOKV; //21
-		private double valueOfPurchasesVAT; //22
-		private double differenceInValueVatToCorrectiveInvoice; //23
-		private double amountOfDeductibleVat; //24
-		private double differenceInVatAccordingToCorrectiveInvoice; //25
+		private Double valueOfPurchasesVAT; //22
+		private Double differenceInValueVatToCorrectiveInvoice; //23
+		private Double amountOfDeductibleVat; //24
+		private Double differenceInVatAccordingToCorrectiveInvoice; //25
 		private String copiedLine; //26
 		private Row createRow;
 		private String Temp;
@@ -189,11 +189,17 @@ import org.apache.poi.ss.usermodel.Row;
 									
 									}
 							}
-		    
-			this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue();	//VAT22
+		    //3 || 4 not empty VAT22=15; VAT23=null
+			if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
+				this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue(); //VAT22
+				this.differenceInValueVatToCorrectiveInvoice = null; //23
+			}
 			
+			if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
+				this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //23
+				this.valueOfPurchasesVAT = null; //22
+			}
 
-			this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //VAT23
 			this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
 			this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
 		
@@ -226,7 +232,7 @@ import org.apache.poi.ss.usermodel.Row;
 		}
 		
 		public String [] caseInfo (Cell info, String Stringacter){
-			double num;  
+			Double num;  
 			
 			switch (info.getCellType()) {
 			
@@ -445,30 +451,30 @@ import org.apache.poi.ss.usermodel.Row;
 		public void setCurrencyCodePerOKV(String currencyCodePerOKV) {
 			this.currencyCodePerOKV = currencyCodePerOKV;
 		}
-		public double getValueOfPurchasesVAT() {
+		public Double getValueOfPurchasesVAT() {
 			return valueOfPurchasesVAT;
 		}
-		public void setValueOfPurchasesVAT(double valueOfPurchasesVAT) {
+		public void setValueOfPurchasesVAT(Double valueOfPurchasesVAT) {
 			this.valueOfPurchasesVAT = valueOfPurchasesVAT;
 		}
-		public double getDifferenceInValueVatToCorrectiveInvoice() {
+		public Double getDifferenceInValueVatToCorrectiveInvoice() {
 			return differenceInValueVatToCorrectiveInvoice;
 		}
 		public void setDifferenceInValueVatToCorrectiveInvoice(
-				double differenceInValueVatToCorrectiveInvoice) {
+				Double differenceInValueVatToCorrectiveInvoice) {
 			this.differenceInValueVatToCorrectiveInvoice = differenceInValueVatToCorrectiveInvoice;
 		}
-		public double getAmountOfDeductibleVat() {
+		public Double getAmountOfDeductibleVat() {
 			return amountOfDeductibleVat;
 		}
 		public void setAmountOfDeductibleVat(Double amountOfDeductibleVat) {
 			this.amountOfDeductibleVat = amountOfDeductibleVat;
 		}
-		public double getDifferenceInVatAccordingToCorrectiveInvoice() {
+		public Double getDifferenceInVatAccordingToCorrectiveInvoice() {
 			return differenceInVatAccordingToCorrectiveInvoice;
 		}
 		public void setDifferenceInVatAccordingToCorrectiveInvoice(
-				double differenceInVatAccordingToCorrectiveInvoice) {
+				Double differenceInVatAccordingToCorrectiveInvoice) {
 			this.differenceInVatAccordingToCorrectiveInvoice = differenceInVatAccordingToCorrectiveInvoice;
 		}
 		public String getCopiedLine() {

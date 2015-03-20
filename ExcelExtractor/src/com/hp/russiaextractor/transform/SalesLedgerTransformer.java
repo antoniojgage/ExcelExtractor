@@ -143,10 +143,14 @@ public class SalesLedgerTransformer {
 			outRow.createCell(18).setCellValue(purchase.getCrrofIntermediary()); 
 			outRow.createCell(19).setCellValue(purchase.getNumberOfCustomsDeclaration());
 			outRow.createCell(20).setCellValue(purchase.getCurrencyCodePerOKV());
-			outRow.createCell(21).setCellValue(purchase.getValueOfPurchasesVAT()); 
-			outRow.createCell(22).setCellValue(purchase.getDifferenceInValueVatToCorrectiveInvoice());
-			outRow.createCell(23).setCellValue(purchase.getAmountOfDeductibleVat());
-			outRow.createCell(23).setCellValue(purchase.getDifferenceInVatAccordingToCorrectiveInvoice());
+			if (purchase.getValueOfPurchasesVAT()==null) outRow.createCell(21).setCellValue(new String("-"));
+			else outRow.createCell(21).setCellValue(purchase.getValueOfPurchasesVAT()); 
+			if (purchase.getDifferenceInValueVatToCorrectiveInvoice()==null) outRow.createCell(22).setCellValue(new String("-")); 
+			else outRow.createCell(22).setCellValue(purchase.getDifferenceInValueVatToCorrectiveInvoice());
+			if (purchase.getAmountOfDeductibleVat()==null) outRow.createCell(23).setCellValue(new String("-"));
+			else outRow.createCell(23).setCellValue(purchase.getAmountOfDeductibleVat());
+			if (purchase.getDifferenceInVatAccordingToCorrectiveInvoice()==null) outRow.createCell(24).setCellValue(new String("-"));
+			else outRow.createCell(24).setCellValue(purchase.getDifferenceInVatAccordingToCorrectiveInvoice());
 			
 			
 /*		for(int r = 0; r < 10; r++){
@@ -244,7 +248,7 @@ public class SalesLedgerTransformer {
 		outRow.createCell(21).setCellValue(purchase.getValueOfPurchasesVAT()); 
 		outRow.createCell(22).setCellValue(purchase.getDifferenceInValueVatToCorrectiveInvoice());
 		outRow.createCell(23).setCellValue(purchase.getAmountOfDeductibleVat());
-		outRow.createCell(23).setCellValue(purchase.getDifferenceInVatAccordingToCorrectiveInvoice());
+		outRow.createCell(24).setCellValue(purchase.getDifferenceInVatAccordingToCorrectiveInvoice());
 		}
 		
 
