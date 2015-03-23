@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 //import java.util.GregorianString;
 
+
+
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,22 +37,22 @@ import org.apache.poi.ss.usermodel.Row;
 		private String numberOfPaymentConfirmationDocument; //SL17
 		private String dateOfPaymentConfirmationDocument; //SL18
 		private String currencyCodePerOKV; //SL19
-		private String valueOfSalesInvoiceCurrency; //SL20
-		private String valueOfSalesRur; //SL21
-		private String differenceInValueInvoiceCurrency; //SL22
-		private String differenceInValueInvoiceRur; //SL23
-		private String valueOfSales18; //SL24
-		private String valueOfSales10; //SL25
-		private String valueOfSales0; //SL26
-		private String amountOfVat18; //SL27
-		private String amountOfVat10; //SL28
-		private String valueOfTaxExemptSales; //SL29
+		private Double valueOfSalesInvoiceCurrency; //SL20
+		private Double valueOfSalesRur; //SL21
+		private Double differenceInValueInvoiceCurrency; //SL22
+		private Double differenceInValueInvoiceRur; //SL23
+		private Double valueOfSales18; //SL24
+		private Double valueOfSales10; //SL25
+		private Double valueOfSales0; //SL26
+		private Double amountOfVat18; //SL27
+		private Double amountOfVat10; //SL28
+		private Double valueOfTaxExemptSales; //SL29
 		private Double differenceInValueOfTaxExemptSales; //SL30
-		private String differenceOfCorrective18; //SL31
-		private String differenceOfCorrective10; //SL32
-		private String differenceOfCorrective0; //SL33
-		private String differenceOfVat18; //SL34
-		private String differenceOfVat10; //SL35
+		private Double differenceOfCorrective18; //SL31
+		private Double differenceOfCorrective10; //SL32
+		private Double differenceOfCorrective0; //SL33
+		private Double differenceOfVat18; //SL34
+		private Double differenceOfVat10; //SL35
 		private String copiedLine; //SL36
 		private Row createRow;
 		private String Temp;
@@ -58,10 +61,10 @@ import org.apache.poi.ss.usermodel.Row;
 		public void transformRow (Row newRow)
 		{
 			this.setNo((int) newRow.getCell(0).getNumericCellValue());
-			this.transactionTypeCode = newRow.getCell(4).getStringCellValue();
+			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
 			
 			// Start 3_4
-			String[] intermediate3_4 = this.caseInfo(newRow.getCell(5), "\\u007c");
+			String[] intermediate3_4 = this.caseInfo(newRow.getCell(2), "\\u007c");
 			try {
 				this.invoiceDate = intermediate3_4[0];
 			} catch (NullPointerException e) {
@@ -79,15 +82,15 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			// Start 5_6
 			
-			String[] intermediate5_6 = this.caseInfo(newRow.getCell(7), "\\u007c");
+			String[] intermediate5_6 = this.caseInfo(newRow.getCell(5), "\\u007c");
 			try {
 				//this.dateOfSellersAdjustment = intermediate6_7[0];
-				setSellersAdjustmentAmount(intermediate5_6[0]); //setDateOfSellersAdjustment(intermediate5_6[0]);
+				setSellersAdjustmentAmount(intermediate5_6[0]); //setDateOfSellersAdjustment(intermediate5_6[0]); //5
 			} catch (NullPointerException e) {
 				//System.out.println(e.getMessage().toString());
 			}
 			try{
-				setDateOfSellersAdjustment(intermediate5_6[1]); //setSellersCorrectiveInvoiceNo(intermediate5_6[1]);
+				setDateOfSellersAdjustment(intermediate5_6[1]); //setSellersCorrectiveInvoiceNo(intermediate5_6[1]); //6
 			} catch (NullPointerException e) {
 				//System.out.println(e.getMessage().toString());
 			} catch (ArrayIndexOutOfBoundsException e2) {
@@ -99,7 +102,7 @@ import org.apache.poi.ss.usermodel.Row;
 			// Start 7_8
 			String[] intermediate7_8 = this.caseInfo(newRow.getCell(9), "\\u007c");
 				try {
-					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); 
+					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); //7
 						} catch (NullPointerException e) {
 						}
 						try{
@@ -112,107 +115,112 @@ import org.apache.poi.ss.usermodel.Row;
 			// Start 9_10
 				String[] intermediate9_10 = this.caseInfo(newRow.getCell(12), "\\u007c");
 					try {
-						setAdjustiveSellersCorrectiveInvoiceNo(intermediate9_10[0]); 
+						setAdjustiveSellersCorrectiveInvoiceNo(intermediate9_10[0]); //9
 						} catch (NullPointerException e) {
 						}
 						try{
-						setDateOfAdjustedSellersCorrectiveInvoice(intermediate9_10[1]);
+						setDateOfAdjustedSellersCorrectiveInvoice(intermediate9_10[1]); //10
 						} catch (NullPointerException e) {
 						} catch (ArrayIndexOutOfBoundsException e2) {				
 						}
 			//End of 9_10			
-						
-			// Start 11_12 NEED CHARACTER SYMBOL TO SPLIT
-				String[] intermediate11_12 = this.caseInfo(newRow.getCell(15), "от");
+			
+				this.nameOfPurchaser = newRow.getCell(14).getStringCellValue();		//11	
+			
+				
+				// Start 12_13
+				String[] intermediate12_13 = this.caseInfo(newRow.getCell(27), "/");
 					try {
-								setNumberOfPaymentConfirmationDocument(intermediate11_12[0]); 
+						setTinOfPurchaser(intermediate12_13[0]); //12
+						} catch (NullPointerException e) {
+						}
+						try{
+						setCrrOfPurchaser(intermediate12_13[1]); //13
+						} catch (NullPointerException e) {
+						} catch (ArrayIndexOutOfBoundsException e2) {				
+						}
+			//End of 12_13
+						
+				this.nameOfIntermediary = newRow.getCell(38).getStringCellValue();	//14		
+				
+				// Start 15_16
+				String[] intermediate15_16 = this.caseInfo(newRow.getCell(51), "/");
+					try {
+						setTinOfIntermediary(intermediate15_16[0]); //15
+						} catch (NullPointerException e) {
+						}
+						try{
+						setCrrofIntermediary(intermediate15_16[1]); //15
+						} catch (NullPointerException e) {
+						} catch (ArrayIndexOutOfBoundsException e2) {				
+						}
+				//End of 15_16
+						
+				// Start 17_18 NEED CHARACTER SYMBOL TO SPLIT
+						String[] intermediate16_17 = this.caseInfo(newRow.getCell(64), "от");
+							try {
+								setNumberOfPaymentConfirmationDocument(intermediate16_17[0]); 
 								} catch (NullPointerException e) {
 								}
 								try{
-								setDateOfPaymentConfirmationDocument(intermediate11_12[1]);
+								setDateOfPaymentConfirmationDocument(intermediate16_17[1]);
 								} catch (NullPointerException e) {
 								} catch (ArrayIndexOutOfBoundsException e2) {				
 								}
-			//End of 11_12			
-							
-			
-			//Date of recording logic			
-		     this.dateOfRecording = Calendar.getInstance();
-		     try {
-		    	 this.dateOfRecording.setTime(newRow.getCell(24).getDateCellValue());
-		     } catch (IllegalStateException ise) {this.dateOfRecording = null;}
-		    	 /*if (DateUtil.isCellDateFormatted(newRow.getCell (24)))
-		    	 {
-		    	    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		    	     Cell currentCell = null;
-					dateOfRecording = sdf(currentCell.getDateCellValue());
-		    	 }*/
-		     //end date of recording logic
-		    	 
-			 this.nameOfSeller = newRow.getCell(34).getStringCellValue();	//VAT14
-		
-		// Start 15_16 ED CHARACTER SYMBOL TO SPLIT
-			String[] intermediate15_16 = this.caseInfo(newRow.getCell(45), "/"); 
-				try {
-							setTinOfSeller(intermediate15_16[0]);
-							
-							} catch (NullPointerException e) {
-							}
-							try{
-							setCrrOfSeller(intermediate15_16[1]);
-							} catch (NullPointerException e) {
-							} catch (ArrayIndexOutOfBoundsException e2) {				
-									if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
-									
-									}
-							}	
-		//End of 13_14		
-							
-			
-			this.nameOfIntermediary = newRow.getCell(57).getStringCellValue();	//field 17				
-		
-			// Start 18_19 ED CHARACTER SYMBOL TO SPLIT
-						String[] intermediate18_19 = this.caseInfo(newRow.getCell(67), "/"); 
+					//End of 17_18						
+						
+								
+					//19 Currancy Code			
+								String[] intermediate_19 = this.caseInfo(newRow.getCell(74), ","); //VAT21
+								try {
+									setCurrencyCodePerOKV(intermediate_19[1]);
+											} catch (NullPointerException e) {
+											} catch (ArrayIndexOutOfBoundsException e2) {				
+													if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
+											}
+											}		
+								
+				/*				
+					//SL13A LOGIC 			
+					//3 || 4 not empty VAT22=15; VAT23=null
 							try {
-										setTinOfIntermediary(intermediate18_19[0]);
-										
-										} catch (NullPointerException e) {
-										}
-										try{
-										setCrrofIntermediary(intermediate18_19[1]);
-										} catch (NullPointerException e) {
-										} catch (ArrayIndexOutOfBoundsException e2) {				
-												if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
-												
-												}
-										}
-			
-			this.numberOfCustomsDeclaration = newRow.getCell(68).getStringCellValue();	// VAT20
-
-			// Start 21 ED CHARACTER SYMBOL TO SPLIT
-			String[] intermediate_19 = this.caseInfo(newRow.getCell(78), ","); //VAT21
-				try {
-					setCurrencyCodePerOKV(intermediate_19[1]);
-							} catch (NullPointerException e) {
-							} catch (ArrayIndexOutOfBoundsException e2) {				
-									if (!(newRow.getCell(27).getStringCellValue().contains("|"))){
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT20
+									this.differenceInValueInvoiceCurrency = null; //22
 									
+								}
+								}catch (NullPointerException e) {
+								} catch (ArrayIndexOutOfBoundsException e2) {
+								//5 || 6
+								try{
+									if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+									this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
+									this.valueOfSalesInvoiceCurrency = null; //20
+									
+								}
+								}catch (NullPointerException e3) {
+								} catch (ArrayIndexOutOfBoundsException e4) {				
+								}						
+						
+								
+					//VAT 21 Logic		
+								//3 || 4 not empty VAT22=15; VAT23=null
+							try {	
+							if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+									this.valueOfSalesRur = newRow.getCell(93).getNumericCellValue(); //VAT21
+										this.differenceInValueInvoiceRur = null; //22
 									}
-							}
-		    //3 || 4 not empty VAT22=15; VAT23=null
-			if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
-				this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue(); //VAT22
-				this.differenceInValueVatToCorrectiveInvoice = null; //23
-			}
-			
-			if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
-				this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //23
-				this.valueOfPurchasesVAT = null; //22
-			}
-
-			this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
-			this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
-		
+									//5 || 6
+									if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+										this.differenceInValueInvoiceCurrency = newRow.getCell(93).getNumericCellValue(); //VAT23
+										this.valueOfSalesRur = null; //VAT21
+									}	
+							}catch (NullPointerException e) {
+							}catch (ArrayIndexOutOfBoundsException e21) {
+							}	
+								}	
+								*/
+								
 		}
 				
 				
@@ -312,6 +320,953 @@ import org.apache.poi.ss.usermodel.Row;
 					return parts;
 				}
 			}
+			}
+		
 					
 
 
+
+
+
+
+
+
+
+
+
+
+		public String getTransactionTypeCode() {
+			return transactionTypeCode;
+		}
+
+
+
+
+
+
+
+
+
+		public void setTransactionTypeCode(String transactionTypeCode) {
+			this.transactionTypeCode = transactionTypeCode;
+		}
+
+
+
+
+
+
+
+
+
+		public String getInvoiceDate() {
+			return invoiceDate;
+		}
+
+
+
+
+
+
+
+
+
+		public void setInvoiceDate(String invoiceDate) {
+			this.invoiceDate = invoiceDate;
+		}
+
+
+
+
+
+
+
+
+
+		public String getSellersInvoice() {
+			return sellersInvoice;
+		}
+
+
+
+
+
+
+
+
+
+		public void setSellersInvoice(String sellersInvoice) {
+			this.sellersInvoice = sellersInvoice;
+		}
+
+
+
+
+
+
+
+
+
+		public String getSellersAdjustmentAmount() {
+			return sellersAdjustmentAmount;
+		}
+
+
+
+
+
+
+
+
+
+		public void setSellersAdjustmentAmount(String sellersAdjustmentAmount) {
+			this.sellersAdjustmentAmount = sellersAdjustmentAmount;
+		}
+
+
+
+
+
+
+
+
+
+		public String getDateOfSellersAdjustment() {
+			return dateOfSellersAdjustment;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDateOfSellersAdjustment(String dateOfSellersAdjustment) {
+			this.dateOfSellersAdjustment = dateOfSellersAdjustment;
+		}
+
+
+
+
+
+
+
+
+
+		public String getSellersCorrectiveInvoiceNo() {
+			return sellersCorrectiveInvoiceNo;
+		}
+
+
+
+
+
+
+
+
+
+		public void setSellersCorrectiveInvoiceNo(String sellersCorrectiveInvoiceNo) {
+			this.sellersCorrectiveInvoiceNo = sellersCorrectiveInvoiceNo;
+		}
+
+
+
+
+
+
+
+
+
+		public String getDateOfCorrectiveSellersInvoice() {
+			return dateOfCorrectiveSellersInvoice;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDateOfCorrectiveSellersInvoice(
+				String dateOfCorrectiveSellersInvoice) {
+			this.dateOfCorrectiveSellersInvoice = dateOfCorrectiveSellersInvoice;
+		}
+
+
+
+
+
+
+
+
+
+		public String getAdjustiveSellersCorrectiveInvoiceNo() {
+			return adjustiveSellersCorrectiveInvoiceNo;
+		}
+
+
+
+
+
+
+
+
+
+		public void setAdjustiveSellersCorrectiveInvoiceNo(
+				String adjustiveSellersCorrectiveInvoiceNo) {
+			this.adjustiveSellersCorrectiveInvoiceNo = adjustiveSellersCorrectiveInvoiceNo;
+		}
+
+
+
+
+
+
+
+
+
+		public String getDateOfAdjustedSellersCorrectiveInvoice() {
+			return dateOfAdjustedSellersCorrectiveInvoice;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDateOfAdjustedSellersCorrectiveInvoice(
+				String dateOfAdjustedSellersCorrectiveInvoice) {
+			this.dateOfAdjustedSellersCorrectiveInvoice = dateOfAdjustedSellersCorrectiveInvoice;
+		}
+
+
+
+
+
+
+
+
+
+		public String getNameOfPurchaser() {
+			return nameOfPurchaser;
+		}
+
+
+
+
+
+
+
+
+
+		public void setNameOfPurchaser(String nameOfPurchaser) {
+			this.nameOfPurchaser = nameOfPurchaser;
+		}
+
+
+
+
+
+
+
+
+
+		public String getTinOfPurchaser() {
+			return tinOfPurchaser;
+		}
+
+
+
+
+
+
+
+
+
+		public void setTinOfPurchaser(String tinOfPurchaser) {
+			this.tinOfPurchaser = tinOfPurchaser;
+		}
+
+
+
+
+
+
+
+
+
+		public String getCrrOfPurchaser() {
+			return crrOfPurchaser;
+		}
+
+
+
+
+
+
+
+
+
+		public void setCrrOfPurchaser(String crrOfPurchaser) {
+			this.crrOfPurchaser = crrOfPurchaser;
+		}
+
+
+
+
+
+
+
+
+
+		public String getNameOfIntermediary() {
+			return nameOfIntermediary;
+		}
+
+
+
+
+
+
+
+
+
+		public void setNameOfIntermediary(String nameOfIntermediary) {
+			this.nameOfIntermediary = nameOfIntermediary;
+		}
+
+
+
+
+
+
+
+
+
+		public String getTinOfIntermediary() {
+			return tinOfIntermediary;
+		}
+
+
+
+
+
+
+
+
+
+		public void setTinOfIntermediary(String tinOfIntermediary) {
+			this.tinOfIntermediary = tinOfIntermediary;
+		}
+
+
+
+
+
+
+
+
+
+		public String getCrrofIntermediary() {
+			return crrofIntermediary;
+		}
+
+
+
+
+
+
+
+
+
+		public void setCrrofIntermediary(String crrofIntermediary) {
+			this.crrofIntermediary = crrofIntermediary;
+		}
+
+
+
+
+
+
+
+
+
+		public String getNumberOfPaymentConfirmationDocument() {
+			return numberOfPaymentConfirmationDocument;
+		}
+
+
+
+
+
+
+
+
+
+		public void setNumberOfPaymentConfirmationDocument(
+				String numberOfPaymentConfirmationDocument) {
+			this.numberOfPaymentConfirmationDocument = numberOfPaymentConfirmationDocument;
+		}
+
+
+
+
+
+
+
+
+
+		public String getDateOfPaymentConfirmationDocument() {
+			return dateOfPaymentConfirmationDocument;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDateOfPaymentConfirmationDocument(
+				String dateOfPaymentConfirmationDocument) {
+			this.dateOfPaymentConfirmationDocument = dateOfPaymentConfirmationDocument;
+		}
+
+
+
+
+
+
+
+
+
+		public String getCurrencyCodePerOKV() {
+			return currencyCodePerOKV;
+		}
+
+
+
+
+
+
+
+
+
+		public void setCurrencyCodePerOKV(String currencyCodePerOKV) {
+			this.currencyCodePerOKV = currencyCodePerOKV;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getValueOfSalesInvoiceCurrency() {
+			return valueOfSalesInvoiceCurrency;
+		}
+
+
+
+
+
+
+
+
+
+		public void setValueOfSalesInvoiceCurrency(Double valueOfSalesInvoiceCurrency) {
+			this.valueOfSalesInvoiceCurrency = valueOfSalesInvoiceCurrency;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getValueOfSalesRur() {
+			return valueOfSalesRur;
+		}
+
+
+
+
+
+
+
+
+
+		public void setValueOfSalesRur(Double valueOfSalesRur) {
+			this.valueOfSalesRur = valueOfSalesRur;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceInValueInvoiceCurrency() {
+			return differenceInValueInvoiceCurrency;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceInValueInvoiceCurrency(
+				Double differenceInValueInvoiceCurrency) {
+			this.differenceInValueInvoiceCurrency = differenceInValueInvoiceCurrency;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceInValueInvoiceRur() {
+			return differenceInValueInvoiceRur;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceInValueInvoiceRur(Double differenceInValueInvoiceRur) {
+			this.differenceInValueInvoiceRur = differenceInValueInvoiceRur;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getValueOfSales18() {
+			return valueOfSales18;
+		}
+
+
+
+
+
+
+
+
+
+		public void setValueOfSales18(Double valueOfSales18) {
+			this.valueOfSales18 = valueOfSales18;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getValueOfSales10() {
+			return valueOfSales10;
+		}
+
+
+
+
+
+
+
+
+
+		public void setValueOfSales10(Double valueOfSales10) {
+			this.valueOfSales10 = valueOfSales10;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getValueOfSales0() {
+			return valueOfSales0;
+		}
+
+
+
+
+
+
+
+
+
+		public void setValueOfSales0(Double valueOfSales0) {
+			this.valueOfSales0 = valueOfSales0;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getAmountOfVat18() {
+			return amountOfVat18;
+		}
+
+
+
+
+
+
+
+
+
+		public void setAmountOfVat18(Double amountOfVat18) {
+			this.amountOfVat18 = amountOfVat18;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getAmountOfVat10() {
+			return amountOfVat10;
+		}
+
+
+
+
+
+
+
+
+
+		public void setAmountOfVat10(Double amountOfVat10) {
+			this.amountOfVat10 = amountOfVat10;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getValueOfTaxExemptSales() {
+			return valueOfTaxExemptSales;
+		}
+
+
+
+
+
+
+
+
+
+		public void setValueOfTaxExemptSales(Double valueOfTaxExemptSales) {
+			this.valueOfTaxExemptSales = valueOfTaxExemptSales;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceInValueOfTaxExemptSales() {
+			return differenceInValueOfTaxExemptSales;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceInValueOfTaxExemptSales(
+				Double differenceInValueOfTaxExemptSales) {
+			this.differenceInValueOfTaxExemptSales = differenceInValueOfTaxExemptSales;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceOfCorrective18() {
+			return differenceOfCorrective18;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceOfCorrective18(Double differenceOfCorrective18) {
+			this.differenceOfCorrective18 = differenceOfCorrective18;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceOfCorrective10() {
+			return differenceOfCorrective10;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceOfCorrective10(Double differenceOfCorrective10) {
+			this.differenceOfCorrective10 = differenceOfCorrective10;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceOfCorrective0() {
+			return differenceOfCorrective0;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceOfCorrective0(Double differenceOfCorrective0) {
+			this.differenceOfCorrective0 = differenceOfCorrective0;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceOfVat18() {
+			return differenceOfVat18;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceOfVat18(Double differenceOfVat18) {
+			this.differenceOfVat18 = differenceOfVat18;
+		}
+
+
+
+
+
+
+
+
+
+		public Double getDifferenceOfVat10() {
+			return differenceOfVat10;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDifferenceOfVat10(Double differenceOfVat10) {
+			this.differenceOfVat10 = differenceOfVat10;
+		}
+
+
+
+
+
+
+
+
+
+		public String getCopiedLine() {
+			return copiedLine;
+		}
+
+
+
+
+
+
+
+
+
+		public void setCopiedLine(String copiedLine) {
+			this.copiedLine = copiedLine;
+		}
+
+
+
+
+
+
+
+
+
+		public Row getCreateRow() {
+			return createRow;
+		}
+
+
+
+
+
+
+
+
+
+		public void setCreateRow(Row createRow) {
+			this.createRow = createRow;
+		}
+
+
+
+
+
+
+
+
+
+		public String getTemp() {
+			return Temp;
+		}
+
+
+
+
+
+
+
+
+
+		public void setTemp(String temp) {
+			Temp = temp;
+		}
+
+
+
+
+
+
+
+
+
+		public Date getDate() {
+			return date;
+		}
+
+
+
+
+
+
+
+
+
+		public void setDate(Date date) {
+			this.date = date;
+		}
+
+
+
+
+
+
+
+
+
+		public static long getSerialversionuid() {
+			return serialVersionUID;
+		}
+
+
+
+
+
+
+
+
+
+		public int getNo() {
+			return no;
+		}
+		}

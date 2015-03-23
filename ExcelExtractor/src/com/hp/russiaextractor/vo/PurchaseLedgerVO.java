@@ -194,9 +194,9 @@ import org.apache.poi.ss.usermodel.Row;
 				this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue(); //VAT22
 				this.differenceInValueVatToCorrectiveInvoice = null; //23
 			}
-			
+			//5 || 6
 			if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
-				this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //23
+				this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //VAT23
 				this.valueOfPurchasesVAT = null; //22
 			}
 
