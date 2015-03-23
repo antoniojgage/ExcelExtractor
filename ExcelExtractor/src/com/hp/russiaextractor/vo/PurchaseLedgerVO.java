@@ -48,17 +48,20 @@ import org.apache.poi.ss.usermodel.Row;
 		public void transformRow (Row newRow)
 		{
 			this.setNo((int) newRow.getCell(0).getNumericCellValue());
+			System.out.println(newRow.getCell(0).getNumericCellValue());
+			
+			
 			this.transactionTypeCode = newRow.getCell(4).getStringCellValue();
 			
 			// Start 3_4
 			String[] intermediate3_4 = this.caseInfo(newRow.getCell(5), "\\u007c");
 			try {
-				this.invoiceDate = intermediate3_4[0];
+				this.sellersInvoice = intermediate3_4[0];
 			} catch (NullPointerException e) {
 				//System.out.println(e.getMessage().toString());
 			}
 			try {
-				this.sellersInvoice = intermediate3_4[1];; //set to temp to clear the last value
+				this.invoiceDate = intermediate3_4[1];; //set to temp to clear the last value
 			}catch (NullPointerException e) {
 			}catch (ArrayIndexOutOfBoundsException e2){
 				
@@ -237,7 +240,7 @@ import org.apache.poi.ss.usermodel.Row;
 			switch (info.getCellType()) {
 			
 			case Cell.CELL_TYPE_NUMERIC:{
-				if (DateUtil.isCellDateFormatted(info)) {
+					if (DateUtil.isCellDateFormatted(info)) {
 					num = info.getNumericCellValue();
 					return new String[] {Double.toString(num)};
 			}
@@ -269,9 +272,10 @@ import org.apache.poi.ss.usermodel.Row;
 					parts = info.getStringCellValue().split(Stringacter);
 					part1 = parts[0];
 					part2 = parts[1];
-					System.out.println("parts 0 " + parts[0]);
+					
+					/*System.out.println("parts 0 " + parts[0]);
 					System.out.println("parts 1 " + parts[1]);
-					System.out.println(parts.toString());
+					System.out.println(parts.toString()); */
 						}
 						catch(ArrayIndexOutOfBoundsException e) {
 							//System.out.println(part1 + " broken 1 " + part2);
@@ -281,7 +285,7 @@ import org.apache.poi.ss.usermodel.Row;
 						//	System.out.println(info.getCellType());
 						}
 						
-						System.out.println(part1 + " broken 3 " + part2);
+						//System.out.println(part1 + " broken 3 " + part2);
 					Temp = part2;
 					//	int num = (int)letter[0]
 				//	part1 = part1.substring(0,part1.length()-1);

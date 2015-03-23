@@ -9,6 +9,7 @@ import java.util.Date;
 
 
 
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -61,6 +62,8 @@ import org.apache.poi.ss.usermodel.Row;
 		public void transformRow (Row newRow)
 		{
 			this.setNo((int) newRow.getCell(0).getNumericCellValue());
+			System.out.println(this.getNo());
+			
 			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
 			
 			// Start 3_4
@@ -100,7 +103,7 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			
 			// Start 7_8
-			String[] intermediate7_8 = this.caseInfo(newRow.getCell(9), "\\u007c");
+			String[] intermediate7_8 = this.caseInfo(newRow.getCell(8), "\\u007c");
 				try {
 					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); //7
 						} catch (NullPointerException e) {
@@ -150,7 +153,7 @@ import org.apache.poi.ss.usermodel.Row;
 						} catch (NullPointerException e) {
 						}
 						try{
-						setCrrofIntermediary(intermediate15_16[1]); //15
+						setCrrofIntermediary(intermediate15_16[1]); //16
 						} catch (NullPointerException e) {
 						} catch (ArrayIndexOutOfBoundsException e2) {				
 						}
@@ -180,22 +183,22 @@ import org.apache.poi.ss.usermodel.Row;
 											}
 											}		
 								
-				/*				
+							
 					//SL13A LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
 							try {
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
-								this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT20
-									this.differenceInValueInvoiceCurrency = null; //22
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT21
+									this.valueOfSalesInvoiceCurrency = null; //22
 									
 								}
 								}catch (NullPointerException e) {
 								} catch (ArrayIndexOutOfBoundsException e2) {
 								//5 || 6
 								try{
-									if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
-									this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
-									this.valueOfSalesInvoiceCurrency = null; //20
+									if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+									this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
+									this.differenceInValueInvoiceCurrency = null; //20
 									
 								}
 								}catch (NullPointerException e3) {
@@ -203,7 +206,7 @@ import org.apache.poi.ss.usermodel.Row;
 								}						
 						
 								
-					//VAT 21 Logic		
+					//VAT 21 Logic	13b	
 								//3 || 4 not empty VAT22=15; VAT23=null
 							try {	
 							if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
@@ -218,31 +221,12 @@ import org.apache.poi.ss.usermodel.Row;
 							}catch (NullPointerException e) {
 							}catch (ArrayIndexOutOfBoundsException e21) {
 							}	
-								}	
-								*/
+							}	
+								
 								
 		}
 				
-				
-			
-
-				
-				 
-		    
 		
-		
-		private void setNo(int numericCellValue) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-
-
-
-
-
-
 
 		private Object getCellValue(int i) {
 			// TODO Auto-generated method stub
@@ -268,11 +252,10 @@ import org.apache.poi.ss.usermodel.Row;
 			switch (info.getCellType()) {
 			
 			case Cell.CELL_TYPE_NUMERIC:{
-				if (DateUtil.isCellDateFormatted(info)) {
 					num = info.getNumericCellValue();
 					return new String[] {Double.toString(num)};
 			}
-			}
+			//}
 			case Cell.CELL_TYPE_BLANK:
 				return new String[] {"-"};
 			case Cell.CELL_TYPE_ERROR:
@@ -300,9 +283,9 @@ import org.apache.poi.ss.usermodel.Row;
 					parts = info.getStringCellValue().split(Stringacter);
 					part1 = parts[0];
 					part2 = parts[1];
-					System.out.println("parts 0 " + parts[0]);
+					/*System.out.println("parts 0 " + parts[0]);
 					System.out.println("parts 1 " + parts[1]);
-					System.out.println(parts.toString());
+					System.out.println(parts.toString()); */
 						}
 						catch(ArrayIndexOutOfBoundsException e) {
 							//System.out.println(part1 + " broken 1 " + part2);
@@ -312,7 +295,7 @@ import org.apache.poi.ss.usermodel.Row;
 						//	System.out.println(info.getCellType());
 						}
 						
-						System.out.println(part1 + " broken 3 " + part2);
+						//System.out.println(part1 + " broken 3 " + part2);
 					Temp = part2;
 					//	int num = (int)letter[0]
 				//	part1 = part1.substring(0,part1.length()-1);
@@ -332,7 +315,11 @@ import org.apache.poi.ss.usermodel.Row;
 
 
 
-
+		private void setNo(int numericCellValue) {
+			this.no = numericCellValue;
+			// TODO Auto-generated method stub
+			
+		}
 
 
 		public String getTransactionTypeCode() {
