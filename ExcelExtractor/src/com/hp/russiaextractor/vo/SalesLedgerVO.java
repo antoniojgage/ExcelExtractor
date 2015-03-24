@@ -10,6 +10,7 @@ import java.util.Date;
 
 
 
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -186,26 +187,24 @@ import org.apache.poi.ss.usermodel.Row;
 							
 					//SL13A LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-							try {
 								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
-								this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT21
-									this.valueOfSalesInvoiceCurrency = null; //22
-									
+									try {
+										this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT20
+										this.valueOfSalesInvoiceCurrency = null; //22
+									} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
 								}
-								}catch (NullPointerException e) {
-								} catch (ArrayIndexOutOfBoundsException e2) {
 								//5 || 6
-								try{
-									if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
-									this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
-									this.differenceInValueInvoiceCurrency = null; //20
-									
-								}
-								}catch (NullPointerException e3) {
-								} catch (ArrayIndexOutOfBoundsException e4) {				
-								}						
-						
 								
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+									try{
+										this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
+										this.differenceInValueInvoiceCurrency = null; //20
+									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;}
+								}
+					
+														
+						
+					/*			
 					//VAT 21 Logic	13b	
 								//3 || 4 not empty VAT22=15; VAT23=null
 							try {	
@@ -221,7 +220,8 @@ import org.apache.poi.ss.usermodel.Row;
 							}catch (NullPointerException e) {
 							}catch (ArrayIndexOutOfBoundsException e21) {
 							}	
-							}	
+							}
+	*/
 								
 								
 		}
