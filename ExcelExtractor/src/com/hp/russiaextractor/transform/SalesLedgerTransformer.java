@@ -61,31 +61,32 @@ public class SalesLedgerTransformer {
 	if (inSheet.getRow(18).getCell(98).getStringCellValue().equalsIgnoreCase("16")) {
 			
 			outRow = outSheet.createRow(0);
-			outRow.createCell(0).setCellValue("getNo");
-			outRow.createCell(1).setCellValue("TransactionTypeCode");
-			outRow.createCell(2).setCellValue("InvoiceDate");
-			outRow.createCell(3).setCellValue("SellersInvoice");
-			outRow.createCell(4).setCellValue("SellersAdjustmentAmount"); //5
-			outRow.createCell(5).setCellValue("DateOfSellersAdjustment");
-			outRow.createCell(6).setCellValue("SellersCorrectiveInvoiceNo");
-			outRow.createCell(7).setCellValue("DateOfCorrectiveSellersInvoice");
-			outRow.createCell(8).setCellValue("AdjustiveSellersCorrectiveInvoiceNo");
-			outRow.createCell(9).setCellValue("DateOfAdjustedSellersCorrectiveInvoice");
-			outRow.createCell(10).setCellValue("NumberOfPaymentConfirmationDocument");
-			outRow.createCell(11).setCellValue("DateOfPaymentConfirmationDocument");
-			outRow.createCell(12).setCellValue("DateOfRecording");
-			outRow.createCell(13).setCellValue("NameOfSeller");
-			outRow.createCell(14).setCellValue("TinOfSeller");
-			outRow.createCell(15).setCellValue("CrrOfSeller");
-			outRow.createCell(16).setCellValue("NameOfIntermediary");
-			outRow.createCell(17).setCellValue("TinOfIntermediary"); 
-			outRow.createCell(18).setCellValue("CrrofIntermediary"); 
-			outRow.createCell(19).setCellValue("NumberOfCustomsDeclaration");
-			outRow.createCell(20).setCellValue("CurrencyCodePerOKV");
-			outRow.createCell(21).setCellValue("ValueOfPurchasesVAT"); 
-			outRow.createCell(22).setCellValue("DifferenceInValueVatToCorrectiveInvoice");
-			outRow.createCell(23).setCellValue("AmountOfDeductibleVat");
-			outRow.createCell(23).setCellValue("DifferenceInVatAccordingToCorrectiveInvoice");
+			outRow.createCell(0).setCellValue("No");
+			outRow.createCell(1).setCellValue("Transaction type (code)");
+			outRow.createCell(2).setCellValue("Invoice date");
+			outRow.createCell(3).setCellValue("Number of seller’s invoice");
+			outRow.createCell(4).setCellValue("Number of adjustment to seller’s invoice"); //5
+			outRow.createCell(5).setCellValue("Date of adjustment to seller’s invoice");
+			outRow.createCell(6).setCellValue("Number of seller’s corrective invoice");
+			outRow.createCell(7).setCellValue("Date of seller’s corrective invoice");
+			outRow.createCell(8).setCellValue("Number of adjustment to seller’s corrective invoice");
+			outRow.createCell(9).setCellValue("Date of adjustment to seller’s corrective invoice");
+			outRow.createCell(10).setCellValue("Number of payment confirmation document");
+			outRow.createCell(11).setCellValue("Date of payment confirmation document");
+			outRow.createCell(12).setCellValue("Date of recording");
+			outRow.createCell(13).setCellValue("Name of seller");
+			outRow.createCell(14).setCellValue("TIN of seller");
+			outRow.createCell(15).setCellValue("CRR of seller");
+			outRow.createCell(16).setCellValue("Name of intermediary");
+			outRow.createCell(17).setCellValue("TIN of intermediary"); 
+			outRow.createCell(18).setCellValue("CRR of intermediary"); 
+			outRow.createCell(19).setCellValue("Number of customs declaration");
+			outRow.createCell(20).setCellValue("Currency code per OKV");
+			outRow.createCell(21).setCellValue("Value of purchases, including VAT "); 
+			outRow.createCell(22).setCellValue("Difference in value inclusive of VAT according to corrective invoice");
+			outRow.createCell(23).setCellValue("Amount of deductible VAT ");
+			outRow.createCell(24).setCellValue("Difference in VAT according to corrective invoice");
+			outRow.createCell(25).setCellValue("Is this line copied from an additional sheet of purchase book? (yes/no)");
 			
 		for(Row inRow: inSheet) { 
 			if((inRow.getRowNum() > 18) && (inRow.getCell(0) != null)  && (inRow.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) && !(inRow.getCell(0).getCellType() == Cell.CELL_TYPE_ERROR))  { 

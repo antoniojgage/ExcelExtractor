@@ -117,7 +117,7 @@ import org.apache.poi.ss.usermodel.Row;
 			//End of 7_8
 						
 			// Start 9_10
-				String[] intermediate9_10 = this.caseInfo(newRow.getCell(12), "\\u007c");
+				String[] intermediate9_10 = this.caseInfo(newRow.getCell(11), "\\u007c");
 					try {
 						setAdjustiveSellersCorrectiveInvoiceNo(intermediate9_10[0]); //9
 						} catch (NullPointerException e) {
@@ -201,30 +201,141 @@ import org.apache.poi.ss.usermodel.Row;
 										this.differenceInValueInvoiceCurrency = null; //20
 									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;}
 								}
-					
+								
+								
+					//SL13B LOGIC 			
+					//3 || 4 not empty VAT22=15; VAT23=null
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+									try {
+										this.differenceInValueInvoiceRur = newRow.getCell(93).getNumericCellValue(); //VAT20
+										this.valueOfSalesRur = null; //22
+									} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+								}
+					//5 || 6
+											
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+									try{
+										this.valueOfSalesRur = newRow.getCell(93).getNumericCellValue(); //VAT22
+										this.differenceInValueInvoiceRur = null; //20
+									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									}
+									}
+								
+					//SL14 LOGIC 			
+					//3 || 4 not empty VAT22=15; VAT23=null
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+									try {
+										this.differenceOfCorrective18 = newRow.getCell(105).getNumericCellValue(); //VAT20
+										this.valueOfSales18 = null; //22
+									} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+								}
+								//5 || 6
+														
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+									try{
+										this.valueOfSales18 = newRow.getCell(105).getNumericCellValue(); //VAT22
+										this.differenceOfCorrective18 = null; //20
+									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+								}
+							}
+					//SL15 LOGIC 			
+					//3 || 4 not empty VAT22=15; VAT23=null
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+										try {
+											this.differenceOfCorrective10 = newRow.getCell(116).getNumericCellValue(); //VAT20
+											this.valueOfSales10 = null; //22
+										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+									}
+								//5 || 6
+																	
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+										try{
+											this.valueOfSales10 = newRow.getCell(116).getNumericCellValue(); //VAT22
+											this.differenceOfCorrective10 = null; //20
+										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									}
+								}								
+					//SL16 LOGIC 			
+					//3 || 4 not empty VAT22=15; VAT23=null
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+											try {
+											this.differenceOfCorrective0 = newRow.getCell(125).getNumericCellValue(); //VAT20
+											this.valueOfSales0 = null; //22
+										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+									}
+					//5 || 6
+																				
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+											try{
+											this.valueOfSales0 = newRow.getCell(125).getNumericCellValue(); //VAT22
+											this.differenceOfCorrective0 = null; //20
+										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									}
+								}								
+								
+					//SL17 LOGIC 			
+					//3 || 4 not empty VAT22=15; VAT23=null
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+											try {
+											this.differenceOfVat18 = newRow.getCell(134).getNumericCellValue(); //VAT20
+											this.amountOfVat18 = null; //22
+										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+									}
+								//5 || 6
+																							
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+											try{
+											this.amountOfVat18 = newRow.getCell(134).getNumericCellValue(); //VAT22
+											this.differenceOfVat18 = null; //20
+										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									}
+								}										
+
+						//SL18 LOGIC 			
+						//3 || 4 not empty VAT22=15; VAT23=null
+								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+											try {
+											this.differenceOfVat10 = newRow.getCell(145).getNumericCellValue(); //VAT20
+											this.amountOfVat10 = null; //22
+										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+									}
+						//5 || 6
+																										
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+											try{
+											this.amountOfVat10 = newRow.getCell(145).getNumericCellValue(); //VAT22
+											this.differenceOfVat10 = null; //20
+										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									}
+								}	
+								
+						
+						try{
+								this.differenceInValueOfTaxExemptSales = newRow.getCell(154).getNumericCellValue();	//19		
+						} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+						}
+								
+								
+											
+		
+		}									
+							
+								
+								
+								
+								
+								
+								
+								
+								
+													
 														
 						
-					/*			
-					//VAT 21 Logic	13b	
-								//3 || 4 not empty VAT22=15; VAT23=null
-							try {	
-							if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
-									this.valueOfSalesRur = newRow.getCell(93).getNumericCellValue(); //VAT21
-										this.differenceInValueInvoiceRur = null; //22
-									}
-									//5 || 6
-									if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
-										this.differenceInValueInvoiceCurrency = newRow.getCell(93).getNumericCellValue(); //VAT23
-										this.valueOfSalesRur = null; //VAT21
-									}	
-							}catch (NullPointerException e) {
-							}catch (ArrayIndexOutOfBoundsException e21) {
-							}	
-							}
-	*/
+					
+	
 								
 								
-		}
+		
 				
 		
 
