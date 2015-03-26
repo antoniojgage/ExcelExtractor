@@ -189,17 +189,19 @@ import org.apache.poi.ss.usermodel.Row;
 					//3 || 4 not empty VAT22=15; VAT23=null
 								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 									try {
-										this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT20
-										this.valueOfSalesInvoiceCurrency = null; //22
-									} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+										this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
+										this.valueOfSalesInvoiceCurrency = null; //20
+									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;}
+									
 								}
+								
 								//5 || 6
 								
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 									try{
-										this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
+										this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT20
 										this.differenceInValueInvoiceCurrency = null; //20
-									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;}
+									} catch (IllegalStateException ie) {this.differenceInValueInvoiceCurrency = null;}
 								}
 								
 								
@@ -209,15 +211,15 @@ import org.apache.poi.ss.usermodel.Row;
 									try {
 										this.differenceInValueInvoiceRur = newRow.getCell(93).getNumericCellValue(); //VAT20
 										this.valueOfSalesRur = null; //22
-									} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+									} catch (IllegalStateException ise) {this.valueOfSalesRur = null;}
 								}
 					//5 || 6
 											
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 									try{
 										this.valueOfSalesRur = newRow.getCell(93).getNumericCellValue(); //VAT22
 										this.differenceInValueInvoiceRur = null; //20
-									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									} catch (IllegalStateException ise) {this.differenceInValueInvoiceRur = null;
 									}
 									}
 								
@@ -227,15 +229,15 @@ import org.apache.poi.ss.usermodel.Row;
 									try {
 										this.differenceOfCorrective18 = newRow.getCell(105).getNumericCellValue(); //VAT20
 										this.valueOfSales18 = null; //22
-									} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+									} catch (IllegalStateException ise) {this.valueOfSales18 = null;}
 								}
 								//5 || 6
 														
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 									try{
 										this.valueOfSales18 = newRow.getCell(105).getNumericCellValue(); //VAT22
 										this.differenceOfCorrective18 = null; //20
-									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+									} catch (IllegalStateException ise) {this.differenceOfCorrective18 = null;
 								}
 							}
 					//SL15 LOGIC 			
@@ -244,15 +246,15 @@ import org.apache.poi.ss.usermodel.Row;
 										try {
 											this.differenceOfCorrective10 = newRow.getCell(116).getNumericCellValue(); //VAT20
 											this.valueOfSales10 = null; //22
-										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+										} catch (IllegalStateException ise) {this.valueOfSales10 = null;}
 									}
 								//5 || 6
 																	
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 										try{
 											this.valueOfSales10 = newRow.getCell(116).getNumericCellValue(); //VAT22
 											this.differenceOfCorrective10 = null; //20
-										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+										} catch (IllegalStateException ise) {this.differenceOfCorrective10 = null;
 									}
 								}								
 					//SL16 LOGIC 			
@@ -261,15 +263,15 @@ import org.apache.poi.ss.usermodel.Row;
 											try {
 											this.differenceOfCorrective0 = newRow.getCell(125).getNumericCellValue(); //VAT20
 											this.valueOfSales0 = null; //22
-										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+										} catch (IllegalStateException ise) {this.valueOfSales0 = null;}
 									}
 					//5 || 6
 																				
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 											try{
 											this.valueOfSales0 = newRow.getCell(125).getNumericCellValue(); //VAT22
 											this.differenceOfCorrective0 = null; //20
-										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+										} catch (IllegalStateException ise) {this.differenceOfCorrective0 = null;
 									}
 								}								
 								
@@ -279,15 +281,15 @@ import org.apache.poi.ss.usermodel.Row;
 											try {
 											this.differenceOfVat18 = newRow.getCell(134).getNumericCellValue(); //VAT20
 											this.amountOfVat18 = null; //22
-										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+										} catch (IllegalStateException ise) {this.amountOfVat18 = null;}
 									}
 								//5 || 6
 																							
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 											try{
 											this.amountOfVat18 = newRow.getCell(134).getNumericCellValue(); //VAT22
 											this.differenceOfVat18 = null; //20
-										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+										} catch (IllegalStateException ise) {this.differenceOfVat18 = null;
 									}
 								}										
 
@@ -297,22 +299,22 @@ import org.apache.poi.ss.usermodel.Row;
 											try {
 											this.differenceOfVat10 = newRow.getCell(145).getNumericCellValue(); //VAT20
 											this.amountOfVat10 = null; //22
-										} catch (IllegalStateException ise) {this.differenceInValueInvoiceCurrency = null;}
+										} catch (IllegalStateException ise) {this.amountOfVat10 = null;}
 									}
 						//5 || 6
 																										
-								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 											try{
 											this.amountOfVat10 = newRow.getCell(145).getNumericCellValue(); //VAT22
 											this.differenceOfVat10 = null; //20
-										} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+										} catch (IllegalStateException ise) {this.differenceOfVat10 = null;
 									}
 								}	
 								
 						
 						try{
 								this.differenceInValueOfTaxExemptSales = newRow.getCell(154).getNumericCellValue();	//19		
-						} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;
+						} catch (IllegalStateException ise) {this.differenceInValueOfTaxExemptSales = null;
 						}
 								
 								
@@ -930,8 +932,7 @@ import org.apache.poi.ss.usermodel.Row;
 
 
 
-		public void setDifferenceInValueInvoiceCurrency(
-				Double differenceInValueInvoiceCurrency) {
+		public void setDifferenceInValueInvoiceCurrency(Double differenceInValueInvoiceCurrency) {
 			this.differenceInValueInvoiceCurrency = differenceInValueInvoiceCurrency;
 		}
 
