@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 //import java.util.GregorianString;
 
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -192,19 +193,63 @@ import org.apache.poi.ss.usermodel.Row;
 									
 									}
 							}
-		    //3 || 4 not empty VAT22=15; VAT23=null
-			if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
-				this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue(); //VAT22
-				this.differenceInValueVatToCorrectiveInvoice = null; //23
-			}
-			//5 || 6
-			if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
-				this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //VAT23
-				this.valueOfPurchasesVAT = null; //22
-			}
 
-			this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
-			this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
+			
+			//PL15 LOGIC 			
+			//3 || 4 not empty VAT22=15; VAT23=null
+					if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
+								try {
+								this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //VAT20
+								this.valueOfPurchasesVAT = null; //22
+							} catch (IllegalStateException ise) {this.valueOfPurchasesVAT = null;}
+						}
+			//5 || 6
+																							
+					else if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
+								try{
+								this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue(); //VAT22
+								this.differenceInValueVatToCorrectiveInvoice = null; //20
+							} catch (IllegalStateException ise) {this.differenceInValueVatToCorrectiveInvoice = null;
+						}
+					}	
+					//end logic for 15PL
+	
+					
+					//PL16 LOGIC 			
+					//5 || 6 not empty VAT22=15; VAT23=null
+							if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
+										try {
+										this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
+										this.amountOfDeductibleVat = null; //24
+									} catch (IllegalStateException ise) {this.amountOfDeductibleVat = null;}
+								}
+					//3 || 4
+																									
+							else if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
+										try{
+										this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
+										this.differenceInVatAccordingToCorrectiveInvoice = null; //25
+									} catch (IllegalStateException ise) {this.differenceInVatAccordingToCorrectiveInvoice = null;
+								}
+							}	
+			
+			
+			
+			
+			
+			
+			//this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
 		
 		}
 				
