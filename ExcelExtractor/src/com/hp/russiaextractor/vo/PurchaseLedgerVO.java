@@ -54,8 +54,8 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			this.transactionTypeCode = newRow.getCell(4).getStringCellValue();
 			
-			// Start 3_4
-			String[] intermediate3_4 = this.caseInfo(newRow.getCell(5), "\\u007c");
+			// Start 3_4 ,
+			String[] intermediate3_4 = this.caseInfo(newRow.getCell(5), ",");
 			try {
 				this.sellersInvoice = intermediate3_4[0];
 			} catch (NullPointerException e) {
@@ -73,7 +73,7 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			// Start 5_6
 			
-			String[] intermediate5_6 = this.caseInfo(newRow.getCell(7), "\\u007c");
+			String[] intermediate5_6 = this.caseInfo(newRow.getCell(7), ",");
 			try {
 				//this.dateOfSellersAdjustment = intermediate6_7[0];
 				setSellersAdjustmentAmount(intermediate5_6[0]); //setDateOfSellersAdjustment(intermediate5_6[0]);
@@ -91,7 +91,7 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			
 			// Start 7_8
-			String[] intermediate7_8 = this.caseInfo(newRow.getCell(9), "\\u007c");
+			String[] intermediate7_8 = this.caseInfo(newRow.getCell(9), ",");
 				try {
 					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); 
 						} catch (NullPointerException e) {
@@ -104,7 +104,7 @@ import org.apache.poi.ss.usermodel.Row;
 			//End of 7_8
 						
 			// Start 9_10
-				String[] intermediate9_10 = this.caseInfo(newRow.getCell(12), "\\u007c");
+				String[] intermediate9_10 = this.caseInfo(newRow.getCell(12), ",");
 					try {
 						setAdjustiveSellersCorrectiveInvoiceNo(intermediate9_10[0]); 
 						} catch (NullPointerException e) {
@@ -117,7 +117,9 @@ import org.apache.poi.ss.usermodel.Row;
 			//End of 9_10			
 						
 			// Start 11_12 NEED CHARACTER SYMBOL TO SPLIT
-				String[] intermediate11_12 = this.caseInfo(newRow.getCell(15), "от");
+				String separator11_12 = newRow.getCell(15).getStringCellValue().contains("от") ? "от" : "from";
+					//	String separator11_12 = "from";
+				String[] intermediate11_12 = this.caseInfo(newRow.getCell(15), separator11_12); //от or "from"
 					try {
 								setNumberOfPaymentConfirmationDocument(intermediate11_12[0]); 
 								} catch (NullPointerException e) {
@@ -197,15 +199,16 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			//PL15 LOGIC 			
 			//3 || 4 not empty VAT22=15; VAT23=null
-					if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
+					/*if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
 								try {
-								this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); //VAT20
-								this.valueOfPurchasesVAT = null; //22
+								this.differenceInValueVatToCorrectiveInvoice = newRow.getCell(88).getNumericCellValue(); 
+								this.valueOfPurchasesVAT = null; 
 							} catch (IllegalStateException ise) {this.valueOfPurchasesVAT = null;}
-						}
+						} */
 			//5 || 6
 																							
-					else if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
+					//else 
+						if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
 								try{
 								this.valueOfPurchasesVAT = newRow.getCell(88).getNumericCellValue(); //VAT22
 								this.differenceInValueVatToCorrectiveInvoice = null; //20
@@ -217,15 +220,16 @@ import org.apache.poi.ss.usermodel.Row;
 					
 					//PL16 LOGIC 			
 					//5 || 6 not empty VAT22=15; VAT23=null
-							if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
+							/* if (newRow.getCell(9).getStringCellValue().length()+newRow.getCell(12).getStringCellValue().length()>0) {
 										try {
 										this.differenceInVatAccordingToCorrectiveInvoice = newRow.getCell(98).getNumericCellValue(); //VAT25
 										this.amountOfDeductibleVat = null; //24
 									} catch (IllegalStateException ise) {this.amountOfDeductibleVat = null;}
-								}
+								} */
 					//3 || 4
 																									
-							else if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
+							//else
+								if (newRow.getCell(5).getStringCellValue().length()+newRow.getCell(7).getStringCellValue().length()>0) {
 										try{
 										this.amountOfDeductibleVat = newRow.getCell(98).getNumericCellValue(); //VAT24
 										this.differenceInVatAccordingToCorrectiveInvoice = null; //25

@@ -110,7 +110,7 @@ public class SalesLedgerTransformer {
 			outRow.createCell(11).setCellValue(purchase.getDateOfPaymentConfirmationDocument());
 			DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			if (purchase.getDateOfRecording()==null) outRow.createCell(12).setCellValue(new String("-"));
+			if (purchase.getDateOfRecording()==null) outRow.createCell(12).setCellValue(new String(""));
 			else outRow.createCell(12).setCellValue(sdf.format(purchase.getDateOfRecording().getTime()));
 			outRow.createCell(13).setCellValue(purchase.getNameOfSeller());
 			outRow.createCell(14).setCellValue(purchase.getTinOfSeller());
@@ -122,11 +122,11 @@ public class SalesLedgerTransformer {
 			outRow.createCell(20).setCellValue(purchase.getCurrencyCodePerOKV());
 			if (purchase.getValueOfPurchasesVAT()==null) outRow.createCell(21).setCellValue(new String("-"));
 			else outRow.createCell(21).setCellValue(purchase.getValueOfPurchasesVAT()); 
-			if (purchase.getDifferenceInValueVatToCorrectiveInvoice()==null) outRow.createCell(22).setCellValue(new String("-")); 
+			if (purchase.getDifferenceInValueVatToCorrectiveInvoice()==null) outRow.createCell(22).setCellValue(new String("")); 
 			else outRow.createCell(22).setCellValue(purchase.getDifferenceInValueVatToCorrectiveInvoice());
-			if (purchase.getAmountOfDeductibleVat()==null) outRow.createCell(23).setCellValue(new String("-"));
+			if (purchase.getAmountOfDeductibleVat()==null) outRow.createCell(23).setCellValue(new String(""));
 			else outRow.createCell(23).setCellValue(purchase.getAmountOfDeductibleVat());
-			if (purchase.getDifferenceInVatAccordingToCorrectiveInvoice()==null) outRow.createCell(24).setCellValue(new String("-"));
+			if (purchase.getDifferenceInVatAccordingToCorrectiveInvoice()==null) outRow.createCell(24).setCellValue(new String(""));
 			else outRow.createCell(24).setCellValue(purchase.getDifferenceInVatAccordingToCorrectiveInvoice());
 			
 			
@@ -207,52 +207,52 @@ public class SalesLedgerTransformer {
 			outRow.createCell(17).setCellValue(sales.getDateOfPaymentConfirmationDocument()); //18
 			outRow.createCell(18).setCellValue(sales.getCurrencyCodePerOKV()); //19
 			
-			if (sales.getValueOfSalesInvoiceCurrency()==null) outRow.createCell(19).setCellValue(new String("-"));
+			if (sales.getValueOfSalesInvoiceCurrency()==null) outRow.createCell(19).setCellValue(new String(""));
 			else outRow.createCell(19).setCellValue(sales.getValueOfSalesInvoiceCurrency()); //20
 			
-			if (sales.getValueOfSalesRur()==null) outRow.createCell(20).setCellValue(new String("-"));
+			if (sales.getValueOfSalesRur()==null) outRow.createCell(20).setCellValue(new String(""));
 			else outRow.createCell(20).setCellValue(sales.getValueOfSalesRur()); //21
 			
-			if (sales.getDifferenceInValueInvoiceCurrency()==null) outRow.createCell(21).setCellValue(new String("-"));
+			if (sales.getDifferenceInValueInvoiceCurrency()==null) outRow.createCell(21).setCellValue(new String(""));
 			else outRow.createCell(21).setCellValue(sales.getDifferenceInValueInvoiceCurrency()); //22
 			
-			if (sales.getDifferenceInValueInvoiceRur()==null) outRow.createCell(22).setCellValue(new String("-"));
+			if (sales.getDifferenceInValueInvoiceRur()==null) outRow.createCell(22).setCellValue(new String(""));
 			else outRow.createCell(22).setCellValue(sales.getDifferenceInValueInvoiceRur()); //23
 			
-			if (sales.getValueOfSales18()==null) outRow.createCell(23).setCellValue(new String("-"));
+			if (sales.getValueOfSales18()==null) outRow.createCell(23).setCellValue(new String(""));
 			else outRow.createCell(23).setCellValue(sales.getValueOfSales18()); //24
 			
-			if (sales.getValueOfSales10()==null) outRow.createCell(24).setCellValue(new String("-"));
+			if (sales.getValueOfSales10()==null) outRow.createCell(24).setCellValue(new String(""));
 			else outRow.createCell(24).setCellValue(sales.getValueOfSales10()); //25
 			
-			if (sales.getValueOfSales0()==null) outRow.createCell(25).setCellValue(new String("-"));
+			if (sales.getValueOfSales0()==null) outRow.createCell(25).setCellValue(new String(""));
 			else outRow.createCell(25).setCellValue(sales.getValueOfSales0()); //26
 			
-			if (sales.getAmountOfVat18()==null) outRow.createCell(26).setCellValue(new String("-"));
+			if (sales.getAmountOfVat18()==null) outRow.createCell(26).setCellValue(new String(""));
 			else outRow.createCell(26).setCellValue(sales.getAmountOfVat18()); //27
 			
-			if (sales.getAmountOfVat10()==null) outRow.createCell(27).setCellValue(new String("-"));
+			if (sales.getAmountOfVat10()==null) outRow.createCell(27).setCellValue(new String(""));
 			else outRow.createCell(27).setCellValue(sales.getAmountOfVat10()); //28
 			
-			if (sales.getValueOfTaxExemptSales()==null) outRow.createCell(28).setCellValue(new String("-"));
+			if (sales.getValueOfTaxExemptSales()==null) outRow.createCell(28).setCellValue(new String(""));
 			else outRow.createCell(28).setCellValue(sales.getValueOfTaxExemptSales()); //29
 			
-			if (sales.getDifferenceInValueOfTaxExemptSales()==null) outRow.createCell(29).setCellValue(new String("-"));
+			if (sales.getDifferenceInValueOfTaxExemptSales()==null) outRow.createCell(29).setCellValue(new String(""));
 			else outRow.createCell(29).setCellValue(sales.getDifferenceInValueOfTaxExemptSales()); //30
 			
-			if (sales.getDifferenceOfCorrective18()==null) outRow.createCell(30).setCellValue(new String("-"));
+			if (sales.getDifferenceOfCorrective18()==null) outRow.createCell(30).setCellValue(new String(""));
 			else outRow.createCell(30).setCellValue(sales.getDifferenceOfCorrective18()); //31
 			
-			if (sales.getDifferenceOfCorrective10()==null) outRow.createCell(31).setCellValue(new String("-"));
+			if (sales.getDifferenceOfCorrective10()==null) outRow.createCell(31).setCellValue(new String(""));
 			else outRow.createCell(31).setCellValue(sales.getDifferenceOfCorrective10()); //32
 			
-			if (sales.getDifferenceOfCorrective0()==null) outRow.createCell(32).setCellValue(new String("-"));
+			if (sales.getDifferenceOfCorrective0()==null) outRow.createCell(32).setCellValue(new String(""));
 			else outRow.createCell(32).setCellValue(sales.getDifferenceOfCorrective0()); //33
 			
-			if (sales.getDifferenceOfVat18()==null) outRow.createCell(33).setCellValue(new String("-"));
+			if (sales.getDifferenceOfVat18()==null) outRow.createCell(33).setCellValue(new String(""));
 			else outRow.createCell(33).setCellValue(sales.getDifferenceOfVat18()); //34
 			
-			if (sales.getDifferenceOfVat10()==null) outRow.createCell(34).setCellValue(new String("-"));
+			if (sales.getDifferenceOfVat10()==null) outRow.createCell(34).setCellValue(new String(""));
 			else outRow.createCell(34).setCellValue(sales.getDifferenceOfVat10()); //35
 			
 			

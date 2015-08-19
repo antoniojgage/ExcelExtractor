@@ -11,6 +11,7 @@ import java.util.Date;
 
 
 
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -67,8 +68,8 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			this.transactionTypeCode = newRow.getCell(1).getStringCellValue();
 			
-			// Start 3_4
-			String[] intermediate3_4 = this.caseInfo(newRow.getCell(2), "\\u007c");
+			// Start 3_4 , = Uni code for |
+			String[] intermediate3_4 = this.caseInfo(newRow.getCell(2), ",");
 			try {
 				this.invoiceDate = intermediate3_4[0];
 			} catch (NullPointerException e) {
@@ -86,7 +87,7 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			// Start 5_6
 			
-			String[] intermediate5_6 = this.caseInfo(newRow.getCell(5), "\\u007c");
+			String[] intermediate5_6 = this.caseInfo(newRow.getCell(5), ",");
 			try {
 				//this.dateOfSellersAdjustment = intermediate6_7[0];
 				setSellersAdjustmentAmount(intermediate5_6[0]); //setDateOfSellersAdjustment(intermediate5_6[0]); //5
@@ -104,7 +105,7 @@ import org.apache.poi.ss.usermodel.Row;
 			
 			
 			// Start 7_8
-			String[] intermediate7_8 = this.caseInfo(newRow.getCell(8), "\\u007c");
+			String[] intermediate7_8 = this.caseInfo(newRow.getCell(8), ",");
 				try {
 					setSellersCorrectiveInvoiceNo(intermediate7_8[0]); //7
 						} catch (NullPointerException e) {
@@ -117,7 +118,7 @@ import org.apache.poi.ss.usermodel.Row;
 			//End of 7_8
 						
 			// Start 9_10
-				String[] intermediate9_10 = this.caseInfo(newRow.getCell(11), "\\u007c");
+				String[] intermediate9_10 = this.caseInfo(newRow.getCell(11), ",");
 					try {
 						setAdjustiveSellersCorrectiveInvoiceNo(intermediate9_10[0]); //9
 						} catch (NullPointerException e) {
@@ -161,7 +162,8 @@ import org.apache.poi.ss.usermodel.Row;
 				//End of 15_16
 						
 				// Start 17_18 NEED CHARACTER SYMBOL TO SPLIT
-						String[] intermediate16_17 = this.caseInfo(newRow.getCell(64), "от");
+						String separator16_17 = newRow.getCell(64).getStringCellValue().contains("от") ? "от" : "from";
+						String[] intermediate16_17 = this.caseInfo(newRow.getCell(64), separator16_17); //от or "from"
 							try {
 								setNumberOfPaymentConfirmationDocument(intermediate16_17[0]); 
 								} catch (NullPointerException e) {
@@ -187,17 +189,17 @@ import org.apache.poi.ss.usermodel.Row;
 							
 					//SL13A LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								/* if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 									try {
 										this.differenceInValueInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT22
 										this.valueOfSalesInvoiceCurrency = null; //20
 									} catch (IllegalStateException ise) {this.valueOfSalesInvoiceCurrency = null;}
 									
-								}
+								} */
 								
 								//5 || 6
 								
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								 if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 									try{
 										this.valueOfSalesInvoiceCurrency = newRow.getCell(82).getNumericCellValue(); //VAT20
 										this.differenceInValueInvoiceCurrency = null; //20
@@ -207,33 +209,33 @@ import org.apache.poi.ss.usermodel.Row;
 								
 					//SL13B LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								/* if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 									try {
 										this.differenceInValueInvoiceRur = newRow.getCell(93).getNumericCellValue(); //VAT20
 										this.valueOfSalesRur = null; //22
 									} catch (IllegalStateException ise) {this.valueOfSalesRur = null;}
-								}
+								} */
 					//5 || 6
 											
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 									try{
 										this.valueOfSalesRur = newRow.getCell(93).getNumericCellValue(); //VAT22
-										this.differenceInValueInvoiceRur = null; //20
+										this.differenceInValueInvoiceRur = null; //22 set to null
 									} catch (IllegalStateException ise) {this.differenceInValueInvoiceRur = null;
 									}
 									}
 								
 					//SL14 LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								/* if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 									try {
 										this.differenceOfCorrective18 = newRow.getCell(105).getNumericCellValue(); //VAT20
 										this.valueOfSales18 = null; //22
 									} catch (IllegalStateException ise) {this.valueOfSales18 = null;}
-								}
+								} */
 								//5 || 6
 														
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 									try{
 										this.valueOfSales18 = newRow.getCell(105).getNumericCellValue(); //VAT22
 										this.differenceOfCorrective18 = null; //20
@@ -242,15 +244,15 @@ import org.apache.poi.ss.usermodel.Row;
 							}
 					//SL15 LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+							/*	if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 										try {
 											this.differenceOfCorrective10 = newRow.getCell(116).getNumericCellValue(); //VAT20
 											this.valueOfSales10 = null; //22
 										} catch (IllegalStateException ise) {this.valueOfSales10 = null;}
-									}
+									} */
 								//5 || 6
 																	
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								 if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 										try{
 											this.valueOfSales10 = newRow.getCell(116).getNumericCellValue(); //VAT22
 											this.differenceOfCorrective10 = null; //20
@@ -259,15 +261,15 @@ import org.apache.poi.ss.usermodel.Row;
 								}								
 					//SL16 LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								/* if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 											try {
 											this.differenceOfCorrective0 = newRow.getCell(125).getNumericCellValue(); //VAT20
 											this.valueOfSales0 = null; //22
 										} catch (IllegalStateException ise) {this.valueOfSales0 = null;}
-									}
+									} */
 					//5 || 6
 																				
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								 if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 											try{
 											this.valueOfSales0 = newRow.getCell(125).getNumericCellValue(); //VAT22
 											this.differenceOfCorrective0 = null; //20
@@ -277,15 +279,15 @@ import org.apache.poi.ss.usermodel.Row;
 								
 					//SL17 LOGIC 			
 					//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								 /*if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 											try {
 											this.differenceOfVat18 = newRow.getCell(134).getNumericCellValue(); //VAT20
 											this.amountOfVat18 = null; //22
 										} catch (IllegalStateException ise) {this.amountOfVat18 = null;}
-									}
+									} */
 								//5 || 6
-																							
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+									//add else if using statement below														
+								 if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 											try{
 											this.amountOfVat18 = newRow.getCell(134).getNumericCellValue(); //VAT22
 											this.differenceOfVat18 = null; //20
@@ -295,15 +297,15 @@ import org.apache.poi.ss.usermodel.Row;
 
 						//SL18 LOGIC 			
 						//3 || 4 not empty VAT22=15; VAT23=null
-								if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
+								/*if (newRow.getCell(8).getStringCellValue().length()+newRow.getCell(11).getStringCellValue().length()>0) {
 											try {
 											this.differenceOfVat10 = newRow.getCell(145).getNumericCellValue(); //VAT20
 											this.amountOfVat10 = null; //22
 										} catch (IllegalStateException ise) {this.amountOfVat10 = null;}
-									}
+									} */
 						//5 || 6
 																										
-								else if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
+								if (newRow.getCell(2).getStringCellValue().length()+newRow.getCell(5).getStringCellValue().length()>0) {
 											try{
 											this.amountOfVat10 = newRow.getCell(145).getNumericCellValue(); //VAT22
 											this.differenceOfVat10 = null; //20
